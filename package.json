@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng deploy --base-href=https://G30rg1s.github.io/final-project-cf5/"
+    "deploy": "ng deploy --base-href=https://G30rg1s.github.io/first-e-shop/"
   },
   "private": true,
   "dependencies": {
