@@ -1,0 +1,36 @@
+
+
+.outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    width: 100%; /* Full viewport width */
+    background-color: #535a60;
+}
+
+.container {
+    width: 100%; /* Ensure the container takes full width */
+    max-width: 1200px; /* Optional: Set a maximum width for larger screens */
+    margin: 0 auto; /* Center the container */
+}
+
+/* Additional styling for the form-container and other elements as needed */
+.form-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Adjustments for the buttons */
+.btn-primary {
+    background-color: #101011;
+    border-color:none;
+}
+
+.btn-secondary {
+    background-color: #515355;
+    border-color: none;
+}
