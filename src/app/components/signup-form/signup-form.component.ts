@@ -6,11 +6,13 @@ import {MatButtonModule} from '@angular/material/button';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ReviewWindowComponent } from '../review-window/review-window.component';
+import { FormsModule } from '@angular/forms';
+import{User} from 'src/app/shared/interfaces/user';
 
 @Component({
   selector: 'app-signup-form',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogModule,ReviewWindowComponent],
+  imports: [FormsModule,ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogModule,ReviewWindowComponent],
   templateUrl: './signup-form.component.html',
   styleUrl: './signup-form.component.css'
 })
@@ -23,7 +25,7 @@ export class SignupFormComponent {
     email: new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z0-9\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,}')]),
     address: new FormControl('',Validators.required),
     username: new FormControl('',Validators.required),
-    password: new FormControl('',[Validators.required, Validators.pattern('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&])[A-Za-z\d@$%*?&]{8,}$/')])
+    password: new FormControl('',[Validators.required])// Validators.pattern('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$%*?&])[A-Za-z\d@$%*?&]{8,}$/') ])
   });
 
   constructor(public dialog: MatDialog) {}
@@ -32,7 +34,7 @@ export class SignupFormComponent {
   openDialogWindow(): void {
     const dialogRef = this.dialog.open(ReviewWindowComponent, {
       width: '400px',
-      data: { // Pass the form data here
+      data: { 
         firstname: this.form.get('firstname').value,
         lastname: this.form.get('lastname').value,
         phonenumber: this.form.get('phonenumber').value,

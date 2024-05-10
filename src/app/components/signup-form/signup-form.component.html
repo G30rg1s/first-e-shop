@@ -1,4 +1,82 @@
-<div class="d-flex flex-column">
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <span class="navbar-text text-white">
+        Δώστε τα στοιχεία σας για εγγραφή 
+      </span>
+      <a  role="button" href="login-form" class="btn btn-secondary ">πίσω</a>
+    </div>
+  </nav>
+
+<div class="container">
+    
+    <form [formGroup]="form" class="d-flex flex-column">
+        <div class="mb-3">
+            <label for="firstname" class="form-label">Όνομα</label>
+            <input type="text" class="form-control" id="firstname" formControlName="firstname">
+            @if(form.get("firstname").invalid && form.get("firstname").touched){
+                <div class="text-danger">Το όνομα είναι υποχρεωτικό</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="lastname" class="form-label">Επίθετο</label>
+            <input type="text" class="form-control" id="lastname" formControlName="lastname">
+            @if(form.get("lastname").invalid && form.get("lastname").touched){
+                <div class="text-danger">Το επίθετο είναι υποχρεωτικό</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="phonenumber" class="form-label">Αριθμός κινητού</label>
+            <input type="number" class="form-control" id="phonenumber" formControlName="phonenumber">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" formControlName="email">
+            @if(form.get("email").invalid && form.get("email").touched){
+                <div class="text-danger">Το email είναι υποχρεωτικό</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="address" class="form-label">Διέυθυνση</label>
+            <input type="text" class="form-control" id="address" formControlName="address">
+            @if(form.get("address").invalid && form.get("address").touched){
+                <div class="text-danger">Η διεύθυνση είναι υποχρεωτική</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" formControlName="username">
+            @if(form.get("username").invalid && form.get("username").touched){
+                <div class="text-danger">Το username είναι υποχρεωτικό</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" formControlName="password">
+           
+            @if(form.get("password").invalid && form.get("password").touched   ){
+                <div class="text-danger">Το password είναι υποχρεωτικό και πρέπει να έχει:
+                    <ul>
+                        <li>Τουλάχιστον 1 μικρό</li>
+                        <li>Τουλάχιστον 1 κεφαλαίο</li>
+                        <li>Τουλάχιστον 1 αριθμό</li>
+                        <li>Τουλάχιστον 1 ειδικό χαρακτήρα</li>
+                        <li>Τουλάχιστον 8 χαρακτήρες συνολικά</li>
+                    </ul>
+                </div> 
+            }
+        </div>
+
+        <button (click)="openDialogWindow()" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+    </form>
+</div>
+
+<!--<div class="d-flex flex-column">
     <h5>Δώστε τα στοιχεία σας για εγγραφή</h5>
     <form [formGroup]="form" class="d-flex flex-column">
         <mat-form-field>
@@ -75,4 +153,5 @@
     </form>
 
     <button (click)="openDialogWindow()" mat-flat-button color="primary" [disabled]="form.invalid">Submit</button>
-</div>
+</div>-->
+
