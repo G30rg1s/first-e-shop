@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { Menu, menuSections } from 'src/app/shared/interfaces/menu';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 
 @Component({

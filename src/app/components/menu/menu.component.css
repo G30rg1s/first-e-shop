@@ -36,4 +36,37 @@
     color: #fff; /* White color */
   }
 
+  .btn3.btn-outline-primary {
+    background-color: #f6f8fb; /* Change the background color */
+    color: #121111; /* Change the text color */
+    border: none; /* Remove border */
+    border-radius: 50%; /* Make the button circular */
+    width: 40px; /* Set width */
+    height: 40px; /* Set height */
+    line-height: 40px; /* Center the text vertically */
+    text-align: center; /* Center the text horizontally */
+    font-size: 18px; /* Adjust font size */
+    cursor: pointer; /* Add cursor pointer */
+    margin: 5px; /* Add margin */
+  }
+  
+  /* Optional: Hover effect */
+  .btn-custom:hover {
+    background-color: #0056b3; /* Change background color on hover */
+  }
+
+  .dropdown-menu .nav-link .fas {
+    display: none;
+  }
+
+  .btn3 {
+    transition: transform 0.3s; /* Add transition for smooth scaling */
+  }
+  
+  /* Scale the buttons on hover */
+  .btn3:hover {
+    transform: scale(1.2); /* Increase size by 20% */
+  }
+
+  
  
