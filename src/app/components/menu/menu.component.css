@@ -1,0 +1,39 @@
+.myOuter .navbar {
+    background-color: #333  !important; /* Dark color */
+  }
+
+  .myOuter .btn.btn-primary {
+    background-color: #333 !important; /* Dark color */
+    border:#333;
+  }
+  
+  /* White text color for the links */
+  .myOuter .navbar-nav .nav-link {
+    color: #fff; /* White color */
+  }
+  
+  /* Grey background color when hovered */
+  .myOuter .navbar-nav .nav-link:hover {
+    background-color: #555; /* Grey color */
+  }
+  
+  /* Grey background color for the dropdown menus */
+  .myOuter .dropdown-menu {
+    background-color: #555; /* Grey color */
+  }
+  
+  /* White text color for the dropdown items */
+  .myOuter .dropdown-item {
+    color: #fff; /* White color */
+  }
+  
+  /* Grey background color for the dropdown items when hovered */
+  .myOuter .dropdown-item:hover {
+    background-color: #777; /* Darker grey color */
+  }
+
+  .myOuter .navbar-brand {
+    color: #fff; /* White color */
+  }
+
+ 

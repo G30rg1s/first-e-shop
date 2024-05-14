@@ -29,6 +29,9 @@
         <div class="mb-3">
             <label for="phonenumber" class="form-label">Αριθμός κινητού</label>
             <input type="number" class="form-control" id="phonenumber" formControlName="phonenumber">
+            @if(form.get("phonenumber").invalid && form.get("phonenumber").touched){
+                <div class="text-danger">Το κινητό  είναι υποχρεωτικό</div>
+            }
         </div>
 
         <div class="mb-3">
@@ -41,7 +44,8 @@
 
         <div class="mb-3">
             <label for="address" class="form-label">Διέυθυνση</label>
-            <input type="text" class="form-control" id="address" formControlName="address">
+           <input type="text" class="form-control" id="address" formControlName="address">
+            <a  role="button" href="address-input" class="btn btn-primary ">Προσθήκη διεύθηνσης</a>
             @if(form.get("address").invalid && form.get("address").touched){
                 <div class="text-danger">Η διεύθυνση είναι υποχρεωτική</div>
             }

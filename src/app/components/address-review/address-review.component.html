@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>ΕΛΕΓΧΟΣ ΣΤΟΙΧΕΙΩΝ ΔΙΕΥΘΗΝΣΗΣ</h2>
+<div mat-dialog-content>
+  <div class="outer">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card form-container">                                                            
+                 
+                <p><strong>city:</strong> {{data.city}}</p>
+                <p><strong>area:</strong> {{data.area}}</p>
+                <p><strong>code:</strong> {{data.code}}</p>
+                <p><strong>road:</strong> {{data.road}}</p>
+                <p><strong>number:</strong> {{data.number}}</p>
+                <p><strong>floor:</strong> {{data.floor}}</p>
+                <p><strong>bell:</strong> {{data.bell}}</p>
+                <p><strong>specifications:</strong> {{data.specifications}}</p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
+  
+
+<div class="d-grid gap-2">
+  <a  role="button"  (click)="onConfirm" href="signup-form" class="btn btn-primary ">Αποθήκευση διεύθηνσης</a>
+   <!-- <button mat-button (click)="onCancel()">Cancel</button>-->
+    <!--<span  role="button" (click)="onCancel()" class="btn btn-primary ">Ακύρωση</span>-->
+    <a  role="button" (click)="onCancel()" class="btn btn-secondary ">Ακύρωση</a>
+</div>
+

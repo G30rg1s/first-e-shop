@@ -8,11 +8,12 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ReviewWindowComponent } from '../review-window/review-window.component';
 import { FormsModule } from '@angular/forms';
 import{User} from 'src/app/shared/interfaces/user';
+import { SimpleAddressComponent } from '../simple-address/simple-address.component';
 
 @Component({
   selector: 'app-signup-form',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogModule,ReviewWindowComponent],
+  imports: [FormsModule,ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogModule,ReviewWindowComponent,SimpleAddressComponent],
   templateUrl: './signup-form.component.html',
   styleUrl: './signup-form.component.css'
 })

@@ -1,0 +1,77 @@
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <span class="navbar-text text-white">
+        Δώστε τα στοιχεία της διεύθυνσης 
+      </span>
+      <a  role="button" href="signup-form" class="btn btn-secondary ">πίσω</a>
+    </div>
+  </nav>
+
+<div class="container">
+    
+    <form [formGroup]="form" class="d-flex flex-column">
+        <div class="mb-3">
+            <label for="city" class="form-label">ΝΟΜΟΣ</label>
+            <input type="text" class="form-control" id="city" formControlName="city">
+            @if(form.get("city").invalid && form.get("city").touched){
+                <div class="text-danger">Υποχρεωτικό πεδίο</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="area" class="form-label">ΠΕΡΙΟΧΗ</label>
+            <input type="text" class="form-control" id="area" formControlName="area">
+            @if(form.get("area").invalid && form.get("area").touched){
+                <div class="text-danger">Υποχρεωτικό πεδίο</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="code" class="form-label">Τ.Κ.</label>
+            <input type="number" class="form-control" id="code" formControlName="code">
+            @if(form.get("code").invalid && form.get("code").touched){
+                <div class="text-danger">Υποχρεωτικό πεδίο</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="road" class="form-label">ΔΡΟΜΟΣ</label>
+            <input type="text" class="form-control" id="road" formControlName="road">
+            @if(form.get("road").invalid && form.get("road").touched){
+                <div class="text-danger">Υποχρεωτικό πεδίο</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="number" class="form-label">ΑΡΙΘΜΟΣ</label>
+            <input type="text" class="form-control" id="number" formControlName="number">
+            @if(form.get("number").invalid && form.get("number").touched){
+                <div class="text-danger">Υποχρεωτικό πεδίο</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="floor" class="form-label">ΟΡΟΦΟΣ</label>
+            <input type="text" class="form-control" id="floor" formControlName="floor">
+            @if(form.get("floor").invalid && form.get("floor").touched){
+                <div class="text-danger">Υποχρεωτικό πεδίο</div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="bell" class="form-label">ΚΟΥΔΟΥΝΙ</label>
+            <input type="bell" class="form-control" id="bell" formControlName="bell">
+            @if(form.get("bell").invalid && form.get("bell").touched){
+                <div class="text-danger">Υποχρεωτικό πεδίο</div>
+            }
+         </div>
+
+         <div class="mb-3">
+            <label for="specifications" class="form-label">ΣΧΟΛΙΑ</label>
+            <textarea type="specifications" class="form-control" id="specifications" formControlName="specifications" ></textarea>
+         </div>
+        
+        <button (click)="openDialogWindow()" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+    </form>
+</div>
+
