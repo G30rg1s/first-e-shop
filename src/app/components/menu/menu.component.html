@@ -7,7 +7,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse"  [@collapseAnimation]="isCollapsed ? 'false' : 'true'" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item dropdown" (mouseenter)="toggleDropdown('man')" (mouseleave)="showManDropdown = false">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMan" role="button" aria-haspopup="true"
