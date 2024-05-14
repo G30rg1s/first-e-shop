@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand"><h2>Επιλογή προϊόντων</h2></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      <button class="navbar-toggler" (click)="toggleCollapse()" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -100,63 +100,5 @@
     </div>
   </nav>
 </div>
-
-
-<!--<div class="myOuter">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand"><h2>Επιλογή προϊόντων</h2></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown" (mouseenter)="toggleDropdown('man')" (mouseleave)="showManDropdown = false">
-          <a class="nav-link dropdown-toggle"  id="navbarDropdownMan" role="button" aria-haspopup="true"
-            aria-expanded="false">
-            Αντρικά <i class="fas fa-caret-down"></i>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMan" [style.display]="showManDropdown ? 'block' : 'none'" (mouseenter)="showManDropdown = true" (mouseleave)="showManDropdown = false">
-            <a class="dropdown-item" href="#">Κοντομάνικα</a>
-            <a class="dropdown-item" href="#">Φούτερ</a>
-            <a class="dropdown-item" href="#">Παντελόνια</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown" (mouseenter)="toggleDropdown('woman')" (mouseleave)="showWomanDropdown = false">
-          <a class="nav-link dropdown-toggle"  id="navbarDropdownWoman" role="button" aria-haspopup="true"
-            aria-expanded="false">
-            Γυναικεία <i class="fas fa-caret-down"></i>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownWoman" [style.display]="showWomanDropdown ? 'block' : 'none'" (mouseenter)="showWomanDropdown = true" (mouseleave)="showWomanDropdown = false">
-            <a class="dropdown-item" href="#">Φορέματα</a>
-            <a class="dropdown-item" href="#">Φούστες</a>
-            <a class="dropdown-item" href="#">Ζακέτες</a>
-          </div>
-        </li>
-        <li class="nav-item dropdown" (mouseenter)="toggleDropdown('child')" (mouseleave)="showChildDropdown = false">
-          <a class="nav-link dropdown-toggle"  id="navbarDropdownChild" role="button" aria-haspopup="true"
-            aria-expanded="false">
-            Παιδικά <i class="fas fa-caret-down"></i>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownChild" [style.display]="showChildDropdown ? 'block' : 'none'" (mouseenter)="showChildDropdown = true" (mouseleave)="showChildDropdown = false">
-            <a class="dropdown-item" href="#">Μπλούζες</a>
-            <a class="dropdown-item" href="#">Σορτσάκια</a>
-            <a class="dropdown-item" href="#">Παπούτσια</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-</div>-->
-
-
-
-
-
-
-
 
 

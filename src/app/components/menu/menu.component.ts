@@ -15,11 +15,19 @@ import { Menu, menuSections } from 'src/app/shared/interfaces/menu';
 export class MenuComponent {
   menuSections: Menu[] = menuSections;
 
+  isCollapsed = true;
+
+  toggleCollapse() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
   showChildDropdown: boolean = false;
   showWomanDropdown: boolean = false;
   showManDropdown: boolean = false;
 
   toggleDropdown(section: string): void {
+
+   
     
     this.showChildDropdown = false;
     this.showWomanDropdown = false;
