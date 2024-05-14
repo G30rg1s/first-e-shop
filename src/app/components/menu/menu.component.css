@@ -37,12 +37,12 @@
   }
 
   .btn3.btn-outline-primary {
-    background-color: #f6f8fb; /* Change the background color */
+    background-color: #ffffff; /* Change the background color */
     color: #121111; /* Change the text color */
     border: none; /* Remove border */
     border-radius: 50%; /* Make the button circular */
-    width: 40px; /* Set width */
-    height: 40px; /* Set height */
+    width: 45px; /* Set width */
+    height: 45px; /* Set height */
     line-height: 40px; /* Center the text vertically */
     text-align: center; /* Center the text horizontally */
     font-size: 18px; /* Adjust font size */
@@ -65,7 +65,7 @@
   
   /* Scale the buttons on hover */
   .btn3:hover {
-    transform: scale(1.2); /* Increase size by 20% */
+    transform: scale(1.4); /* Increase size by 20% */
   }
 
   
