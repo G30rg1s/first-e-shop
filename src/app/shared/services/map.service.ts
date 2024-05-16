@@ -1,36 +1,35 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as L from 'leaflet';
-
-const mapUrl = 'https://www.openstreetmap.org/#map=4/41.87/28.21' ;
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
 
-  http: HttpClient = inject(HttpClient);
+  private map: L.Map;
 
-  private map: any;
+  constructor() { }
 
-  initMap(mapElement: HTMLElement): void {
-    // Initialize your map here
-    // Example for Google Maps
-    this.map = new google.maps.Map(mapElement, {
-      center: { lat: -34.397, lng: 150.644 },
-      zoom: 8
+  loadMap() {
+    const map = L.map('map').setView([51.505, -0.09], 13);
+
+    var customIcon = L.divIcon({
+      className: 'leaflet-div-icon',
+      html: '<i class="bi bi-geo-alt-fill"  style="font-size: 30px;"></i>',
+      iconSize: [0, 0], 
+      iconAnchor: [0, 0], 
+      popupAnchor: [0, 0]
     });
-  }
+     
+  
 
-  triggerMapResize(): void {
-    // Example for Google Maps
-    if (this.map) {
-      google.maps.event.trigger(this.map, 'resize');
-      // Re-center the map if necessary
-      const center = this.map.getCenter();
-      if (center) {
-        this.map.setCenter(center);
-      }
-    }
-  }
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+L.marker([37.97583406077856, 23.732692889038436], {icon: customIcon}).addTo(map)
+    .bindPopup('Το κατάστημά μας')
+    .openPopup();
+}
+ 
 }
