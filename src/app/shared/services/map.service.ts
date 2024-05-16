@@ -28,7 +28,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 L.marker([37.97583406077856, 23.732692889038436], {icon: customIcon}).addTo(map)
-    .bindPopup('Το κατάστημά μας')
+    .bindPopup('<div style="text-align: center;"><h4>Το κατάστημά μας</h4><br></div>')
     .openPopup();
 }
  
