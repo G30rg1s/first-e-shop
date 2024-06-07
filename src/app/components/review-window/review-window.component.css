@@ -1,9 +1,28 @@
-.btn-secondary {
-    background-color: #b60b0b;
-    border-color:none;
+
+.dialog-content {
+  max-width: 450px;
+  margin: 0 auto;
 }
 
-.btn-primary {
-    background-color: #101011;
-    border-color:none;
+.form-container {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+.address-box {
+  margin-top: 8px;
+  border: 1px solid #716f6f;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.address-content {
+  padding-left: 10px; /* Adjust as needed */
+}
+
+.btn-secondary {
+  background-color: #101011;
+  border-color: none;
 }

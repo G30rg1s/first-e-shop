@@ -1,0 +1,239 @@
+<div class="mydiv">
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <span class="navbar-text text-white">
+          <h2><strong>ADMIN</strong></h2>
+        </span>
+        <span class="navbar-text text-white">
+          <h3>{{ userData?.firstname }} {{ userData?.lastname }}</h3>
+        </span>
+        <span role="button" class="btn btn-outline-secondary ml-1" (click)="logout()">Logout</span>
+      </div>
+    </div>
+  </nav>
+  <div class="newdiv" *ngIf="showButtons">
+  <div class="button-wrapper">
+    <div class="button-container" >
+      <div class="buttonstitle"><h1>Προνόμια</h1></div>
+      <button class="btn2 btn-primary2" (click)="showAllUsers()">Όλοι οι χρήστες</button>
+      <button class="btn2 btn-primary2" (click)="showAllproducts()">Όλα τα προιόντα</button>
+      <a href="adminaddproducts"><button class="btn2 btn-primary2">Προσθήκη προιόντων</button></a>
+      <a href="menu"><button class="btn2 btn-primary2">Μετάβαση στο menu</button></a>
+        </div>
+  </div>
+  </div>
+
+  <div *ngIf="showUsers" class="container py-5 custom-container">
+    <div class="header">
+      <h1 class="red-text"><strong>All Users</strong></h1>
+      <div class="search-area">
+        <div class="input-with-button">
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery" (input)="searchUsers()">
+          <button class="btn btn-black">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-outline-secondary ml-1 red-button" (click)="closeUsers()">
+        <i class="bi bi-x-circle"></i>
+      </button>
+    </div>
+    
+    <div class="table-container">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th (click)="sortData('firstname')">
+             <h4>Όνομα</h4> 
+              <button class="sort-btn" [class.asc]="sortOrder.firstname === 'asc'" [class.desc]="sortOrder.firstname === 'desc'">
+                shorting {{ sortSign('firstname') }}
+              </button>
+            </th>
+            <th (click)="sortData('lastname')">
+              <h4>Επίθετο</h4>
+              <button class="sort-btn" [class.asc]="sortOrder.lastname === 'asc'" [class.desc]="sortOrder.lastname === 'desc'">
+                shorting {{ sortSign('lastname') }}
+              </button>
+            </th>
+            <th (click)="sortData('email')">
+              <h4>Email</h4> 
+              <button class="sort-btn" [class.asc]="sortOrder.email === 'asc'" [class.desc]="sortOrder.email === 'desc'">
+                shorting {{ sortSign('email') }}
+              </button>
+            </th>
+            <th (click)="sortData('phonenumber')">
+             <h4>Τηλέφωνο</h4> 
+              <button class="sort-btn" [class.asc]="sortOrder.phonenumber === 'asc'" [class.desc]="sortOrder.phonenumber === 'desc'">
+                shorting  {{ sortSign('phonenumber') }}
+              </button>
+            </th>
+            <th (click)="sortData('roles_string')">
+             <h4>Προνόμιο</h4> 
+              <button class="sort-btn" [class.asc]="sortOrder.roles_string === 'asc'" [class.desc]="sortOrder.roles_string === 'desc'">
+                shorting   {{ sortSign('roles_string') }}
+              </button>
+            </th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="searchQuery === ''">
+            <tr *ngFor="let user of users">
+              <td>{{ user.firstname }}</td>
+              <td>{{ user.lastname }}</td>
+             <td><h5>{{ user.email }}</h5> </td>
+              <td>{{ user.phonenumber }}</td>
+              <td style="color: rgb(8, 109, 143);">{{ getRole(user.roles_string) }}</td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="searchQuery !== ''">
+            <tr *ngFor="let user of filteredUsers">
+              <td>{{ user.firstname }}</td>
+              <td>{{ user.lastname }}</td>
+              <td><h4>{{ user.email }}</h4> </td>
+              <td>{{ user.phonenumber }}</td>
+              <td style="color: rgb(8, 109, 143);">{{ getRole(user.roles_string) }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <p *ngIf="searchQuery !== '' && filteredUsers.length === 0">No users found.</p>
+    <p *ngIf="searchQuery === '' && users.length === 0">No users found.</p>
+  </div>
+</div>
+
+
+
+
+
+
+  <!-- --------------------------------------------------------------------------------------------------------------  -->
+
+
+  <div *ngIf="showProducts" class="container py-5 custom-container">
+    <div class="header">
+      <h1 class="red-text"><strong>Όλα τα προιόντα</strong></h1>
+      <div class="search-area">
+        <div class="input-with-button">
+          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery1" (input)="searchProducts()">
+          <button class="btn btn-black">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-outline-secondary ml-1 red-button" (click)="closeProducts()">
+        <i class="bi bi-x-circle"></i>
+      </button>
+    </div>
+    
+    <div class="table-container">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th (click)="sortData1('category')">
+             <h4>Κατηγορία</h4> 
+              <button class="sort-btn" [class.asc]="sortOrder1.category === 'asc'" [class.desc]="sortOrder1.category === 'desc'">
+                shorting {{ sortSign('category') }}
+              </button>
+            </th>
+            <th (click)="sortData1('subcategory')">
+              <h4>Υποκατηγορία</h4>
+              <button class="sort-btn" [class.asc]="sortOrder1.subcategory === 'asc'" [class.desc]="sortOrder1.subcategory === 'desc'">
+                shorting {{ sortSign('subcategory') }}
+              </button>
+            </th>
+            <th (click)="sortData1('brand')">
+              <h4>Μάρκα</h4> 
+              <button class="sort-btn" [class.asc]="sortOrder1.brand === 'asc'" [class.desc]="sortOrder1.brand === 'desc'">
+                shorting {{ sortSign('brand') }}
+              </button>
+            </th>
+            <th (click)="sortData1('price')">
+             <h4>Τιμή</h4> 
+              <button class="sort-btn" [class.asc]="sortOrder1.price === 'asc'" [class.desc]="sortOrder1.price === 'desc'">
+                shorting  {{ sortSign('price') }}
+              </button>
+            </th>
+            <th (click)="sortData1('amount')">
+             <h4>Ποσότητα</h4> 
+              <button class="sort-btn" [class.asc]="sortOrder1.amount === 'asc'" [class.desc]="sortOrder1.amount === 'desc'">
+                shorting   {{ sortSign('amount') }}
+              </button>
+            </th>
+            <th><p>Επεξεργασία</p> </th>
+            <th><p>Διαγραφή</p> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="searchQuery1 === ''">
+            <tr *ngFor="let product of products">
+              <td>{{ product.category }}</td>
+              <td>{{ product.subcategory }}</td>
+              <td>{{product.brand }}</td>
+              <td ><strong style="color: rgb(207, 12, 12);">{{ product.price }}</strong> <i style="color: rgb(0, 0, 0);" class="bi bi-currency-euro"></i> </td>
+              <td ><strong style="color: rgb(34, 13, 187);">{{ product.amount }}</strong> τμχ.</td>
+              <td><button class="btn btn-outline-primary button-icons" (click)="openUpdate(product)"><i class="bi bi-pencil-square"></i></button></td>
+              <td><button class="btn btn-outline-primary button-icons" (click)="openDelete(product)"><i style="color: rgb(255, 0, 0);" class="bi bi-trash3"></i></button></td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="searchQuery1 !== ''">
+            <tr *ngFor="let product of filteredProducts">
+              <td>{{ product.category }}</td>
+              <td>{{ product.subcategory }}</td>
+              <td>{{product.brand }}</td>
+              <td ><strong style="color: rgb(207, 12, 12);">{{ product.price }}</strong> <i style="color: rgb(0, 0, 0);" class="bi bi-currency-euro"></i> </td>
+              <td ><strong style="color: rgb(34, 13, 187);">{{ product.amount }}</strong> τμχ.</td>
+              <td><button class="btn btn-outline-primary button-icons" (click)="openUpdate(product)"><i class="bi bi-pencil-square"></i></button></td>
+              <td><button class="btn btn-outline-primary button-icons" (click)="openDelete(product)"><i style="color: rgb(255, 0, 0);" class="bi bi-trash3"></i></button></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <p *ngIf="searchQuery1 !== '' && filteredProducts.length === 0">No products found.</p>
+    <p *ngIf="searchQuery1 === '' && products.length === 0">No products found.</p>
+  </div>
+
+
+
+  <!--  ----------------------------------------------------------------------------------------------  -->
+  <div class="form-container1" *ngIf="selectUpdateProduct">
+    <form [formGroup]="updateProductForm" (ngSubmit)="updateProduct(products)">
+      <div>
+        <h3>
+          ΕΠΕΞΕΡΓΑΣΙΑ ΠΡΟΙΟΝΤΟΣ {{selectUpdateProduct.key}}
+          <button class="myButton" type="button" (click)="closeUpdate(selectUpdateProduct)"><i class="bi bi-x-circle"></i></button>
+        </h3>
+      </div>
+      <div class="form-group1">
+        <label for="category">Κατηγορία: {{selectUpdateProduct.category}}</label>
+      </div>
+      <div class="form-group1">
+        <label for="subcategory">Υποκατηγορία: {{selectUpdateProduct.subcategory}}</label>
+      </div>
+      <div class="form-group1">
+        <label for="brand">Μάρκα: {{selectUpdateProduct.brand}}</label>
+      </div>
+      <div class="form-group1">
+        <label for="price">Τιμή</label>
+        <input type="number" formControlName="price" id="price" class="form-control1" [value]="selectUpdateProduct.price" placeholder="{{selectUpdateProduct.price}}" required>
+      </div>
+      <div class="form-group1">
+        <label for="amount">Ποσότητα</label>
+        <input type="text" formControlName="amount" id="amount" class="form-control1" [value]="selectUpdateProduct.amount" placeholder="{{selectUpdateProduct.amount}}">
+      </div>
+      <button type="submit" class="btn btn-primary">Υποβολή</button>
+    </form>
+  </div>
+
+  <!--  ------------------------------------------------------------------------------------  -->
+
+
+  <div class="deletediv" *ngIf="selectDeleteProduct">
+    <h1>ΠΡΟΣΟΧΗ</h1>
+    <h3>Είστε σίγουροι για τη διαγραφή? {{selectDeleteProduct.key}}</h3>
+    <button class="deletebtn" (click)="deleteOneProduct(selectDeleteProduct)">Διαγραφή</button>
+    <button class="closebtn" (click)="closeDelete(selectUpdateProduct)">ΑΚΥΡΟ</button>
+  </div>

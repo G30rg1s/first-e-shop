@@ -1,0 +1,22 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* This ensures the button is centered vertically */
+  }
+  
+  .huge-button {
+    font-size: 36px; /* Adjust the font size as needed */
+    padding: 20px 40px; /* Adjust the padding as needed */
+    background-color: #007bff; /* Example background color */
+    color: white; /* Text color */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .huge-button:hover {
+    background-color: #0056b3; /* Change the background color on hover */
+  }
+  

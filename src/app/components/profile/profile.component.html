@@ -1,0 +1,190 @@
+<div class="mydiv">
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <span class="navbar-text text-white">Καλώς ήρθες στο προφίλ σου</span>
+        <span class="navbar-text text-white"><h3>{{ userData.firstname }} {{ userData.lastname }}</h3></span>
+        <a role="button" href="menu" class="btn btn-secondary">πίσω</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container py-5">
+    <div class="row g-5 justify-content-between">
+
+      <!--ΠΡΟΣΩΠΙΚΑ ΣΤΟΙΧΕΙΑ-->
+      <div  *ngIf="personaldataVisible" class="col-md-4 d-flex">
+        <div class="flex-grow-1 bg-green border rounded p-4 thick-border-out">
+          <div class="header-like"><h3>Προσωπικά στοιχεία</h3></div>
+          <div class="thick-border">
+            <p><strong>Όνομα:</strong> {{ userData.firstname }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Επώνυμο:</strong> {{ userData.lastname }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Κινητό:</strong> {{ userData.phonenumber }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Email:</strong> {{ userData.email }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Username:</strong> {{ userData.username }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <!--ΠΡΟΣΘΗΚΗ ΔΙΕΥΘΗΝΣΗΣ-->
+      <div class="form-container" *ngIf="addressFormVisible">
+        <form [formGroup]="addressForm">
+          <div><h3>Προσθέστε διεύθηνση  <button class="myButton">  <i class="bi bi-x-circle" (click)="closeAddAddress()"></i></button></h3></div>
+          <div class="form-group">
+            <label for="city">Πόλη</label>
+            <input type="text" formControlName="city" id="city" class="form-control" placeholder="Πόλη" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="area">Περιοχή</label>
+            <input type="text" formControlName="area" id="area" class="form-control" placeholder="Περιοχή" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="code">Τ.Κ.</label>
+            <input type="text" formControlName="code" id="code" class="form-control" placeholder="Τ.Κ." required>
+          </div>
+      
+          <div class="form-group">
+            <label for="road">Δρόμος</label>
+            <input type="text" formControlName="road" id="road" class="form-control" placeholder="Δρόμος" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="number">Αριθμός</label>
+            <input type="text" formControlName="number" id="number" class="form-control" placeholder="Αριθμός" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="floor">Όροφος</label>
+            <input type="text" formControlName="floor" id="floor" class="form-control" placeholder="Όροφος" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="bell">Κουδούνι</label>
+            <input type="text" formControlName="bell" id="bell" class="form-control" placeholder="Κουδούνι" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="specifications">Σχόλια</label>
+            <input type="text" formControlName="specifications" id="specifications" class="form-control" placeholder="Σχόλια">
+          </div>
+      
+          <button type="submit" class="btn btn-primary" (click)="addNewAddress()"  [disabled]="addressForm.invalid">Υποβολή</button>
+        </form>
+      </div>
+
+       <!--ΛΕΠΤΟΜΕΡΙΕΣ ΔΙΕΥΘΗΝΣΗΣ-->
+      <div *ngIf="selectedAddress" class="col-md-4 d-flex form-container">
+        <div class="flex-grow-1 bg-green border rounded p-4 thick-border-out position-relative">
+          <button class="myButton2 position-absolute top-right" (click)="closeFullAddress(selectedAddress)">
+            <i class="bi bi-x-circle"></i>
+          </button>
+          <div class="header-like">
+            <h3>Λεπτομέριες διεύθυνσης</h3>
+          </div>
+          <div class="thick-border">
+            <p><strong>Πόλη:</strong> {{ selectedAddress.city }} --- {{selectedAddress.key}}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Περιοχή:</strong> {{ selectedAddress.area }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Τ.Κ.:</strong> {{ selectedAddress.code }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Δρόμος:</strong> {{ selectedAddress.road }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Αριθμός:</strong> {{ selectedAddress.number }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Όροφος:</strong> {{ selectedAddress.floor }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Κουδούνι:</strong> {{ selectedAddress.bell }}</p>
+          </div>
+          <div class="thick-border">
+            <p><strong>Σχόλια:</strong> {{ selectedAddress.specifications }}</p>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!--ΑΠΛΗ ΔΙΕΥΘΗΝΣΗ-->
+     <div *ngIf="simpleAddressVisible" class="col-md-4 d-flex">
+          <div class="flex-grow-1 bg-green border rounded p-4 thick-border-out">
+            <div class="header-like"><h3>Οι διευθήνσεις μου</h3></div>
+            <div class="address-box scrollable-address">
+              <div *ngFor="let address of userData.address" class="address-box-item" (click)="showFullAddress(address)">
+                <p><strong></strong>{{ address.road }} {{ address.number }}, {{address.code}} - {{ address.area }}, </p>
+                <div>
+                  <button class="btn btn-outline-primary button-icons" (click)="openUpdate(address)"><i class="bi bi-pencil-square"></i></button>
+                  <button class="btn btn-outline-danger button-icons" (click)="handleDelete($event,address)"><i class="bi bi-trash3"></i></button>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" (click)="toggleAddressFormVisibility()">Προσθήκη διεύθυνσης</button> 
+          </div>
+        </div>
+
+
+        <!--ΕΠΕΞΕΡΓΑΣΙΑ ΔΙΕΥΘΗΣΝΗΣ-->
+        <div class="form-container" *ngIf="selectUpdateAddress" >
+          <form [formGroup]="updateAddressForm">
+            <div><h3>ΕΠΕΞΕΡΓΑΣΙΑ ΔΙΕΥΘΗΝΣΗΣ {{selectUpdateAddress.key}}<button class="myButton">  <i class="bi bi-x-circle" (click)="closeUpdate(selectUpdateAddress)"></i></button></h3></div>
+            <div class="form-group">
+              <label for="bell">Πόλη: {{selectUpdateAddress.city}}</label>
+           </div>
+           <div class="form-group">
+            <label for="bell">Περιοχή: {{selectUpdateAddress.area}}</label>
+         </div>
+         <div class="form-group">
+          <label for="bell">Τ.Κ.: {{selectUpdateAddress.code}}</label>
+       </div>
+       <div class="form-group">
+        <label for="bell">Δρόμος: {{selectUpdateAddress.road}}</label>
+     </div>
+     <div class="form-group">
+      <label for="bell">Αριθμός: {{selectUpdateAddress.number}}</label>
+   </div>
+   <div class="form-group">
+    <label for="bell">Όροφος: {{selectUpdateAddress.floor}}</label>
+ </div>
+        
+            <div class="form-group">
+              <label for="bell">Κουδούνι</label>
+              <input type="text" formControlName="bell" id="bell" class="form-control" [value]="selectUpdateAddress.bell" placeholder=" {{selectUpdateAddress.bell}}" required>
+            </div>
+        
+            <div class="form-group">
+              <label for="specifications">Σχόλια</label>
+              <input type="text" formControlName="specifications" id="specifications" class="form-control" [value]="selectUpdateAddress.specifications" placeholder=" {{selectUpdateAddress.specifications}}">
+            </div>
+        
+            <button type="submit" class="btn btn-primary" (click)="handleUpdate(userData.address)">Υποβολή</button>
+          </form>
+        </div>
+        
+      
+      
+
+    
+
+      <div  *ngIf="emptyDtaVisible" class="col-md-4 d-flex">
+        <div class="flex-grow-1 bg-green border rounded p-4 thick-border-out">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

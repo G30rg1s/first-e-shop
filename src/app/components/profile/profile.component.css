@@ -1,0 +1,179 @@
+.mydiv{
+  background-color: #676869;
+  width: 100vw;
+height: 100vh;
+overflow: auto;
+}
+
+
+
+
+.myButton{
+border: none;
+color: #c50d0d;
+}
+
+.myButton:hover {
+color: #fd0303;
+transform: scale(1.2);
+cursor: pointer;
+}
+
+.address-box-item:hover {
+transform: scale(1.06);
+cursor: pointer; }
+
+
+.thick-border-out {
+  box-shadow: 0 0 0 3px black;
+}
+
+.thick-border {
+  box-shadow: 0 0 0 1.2px black;
+  border-radius: 10px;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: #ffffff; 
+  color: black; 
+}
+
+.header-like {
+  background-color: #f8f9fa; 
+  font-weight: bold;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-color: aqua;
+  color: black; 
+  text-align: center; 
+}
+
+.header-like h3 {
+  background-color: rgb(61, 59, 59); 
+  color: white; 
+  padding: 10px; 
+  margin: -8px; 
+  border-radius: 10px; 
+}
+
+.bg-green {
+  background-color: #8593b3; 
+  color: black; 
+}
+
+.address-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.address-box-item {
+  border-radius: 10px;
+  box-shadow: 0 0 0 0.9px black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: rgb(250, 248, 248); 
+}
+
+.button-icons {
+  font-size: 1.2em;
+}
+
+ 
+
+ .form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+
+.error {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+
+.scrollable-address {
+  max-height: 300px; /* Adjust the height as needed */
+  overflow-y: auto;
+  width: calc(100% - 40px); /* Adjust the width to 100% minus 40px for padding and borders */
+  padding: 10px; /* Add padding to accommodate borders */
+  border: 1px solid #080808; /* Add a 1px solid border with a light gray color */
+  border-radius: 5px; /* Optional: Add border radius for rounded corners */
+}
+
+
+
+
+
+.position-relative {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.top-right {
+  top: -3px; /* Slightly up */
+  right: -3px; /* Slightly right */
+}
+
+.myButton2 {
+  background: none;
+  border: none;
+  color: #dc0b0b;
+}
+
+.myButton2 i {
+  font-size: 1.5em;
+}
+
+
+
+.myButton2:hover {
+  color: #fd0303;
+  transform: scale(1.3);
+  cursor: pointer;
+}
+

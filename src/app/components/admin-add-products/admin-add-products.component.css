@@ -1,0 +1,89 @@
+.outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #cbd2d8;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .forms-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .form-container {
+    flex: 1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #a7a1a1;
+    margin-right: 20px; /* Add right margin for space between containers */
+  }
+  
+  .form-container:last-child {
+    margin-right: 0; /* Remove margin from the last container to avoid extra space */
+  }
+  .form-title {
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-label {
+    font-weight: 600;
+  }
+  
+  .form-control {
+    padding: 5px 10px;
+  }
+  
+  .btn-primary {
+    background-color: #101011;
+    border-color: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #080808;
+  }
+
+  .button-container {
+    display: block;
+    margin-bottom: 10px; /* Add space between buttons */
+  }
+  
+  .button-container:last-child {
+    margin-bottom: 0; 
+  }
+  
+  .button-container button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #e174ac;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.6s ease;
+    transition: scale 0,4s ease;
+  }
+  
+  .button-container button:hover {
+    background-color: #e8298c;
+    transform: scale(1.1);
+  }

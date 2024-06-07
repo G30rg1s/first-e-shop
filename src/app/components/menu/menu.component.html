@@ -1,67 +1,15 @@
-
-
-
-
 <div class="myOuter">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand"><h2>Επιλογή προϊόντων</h2></a>
-      <button class="navbar-toggler" style="border-color: white;" (click)="toggleCollapse()" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      <button class="navbar-toggler" style="border-color: white;" type="button" (click)="toggleCollapse()" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse"  [@collapseAnimation]="isCollapsed ? 'false' : 'true'" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown" (mouseenter)="toggleDropdown('man')" (mouseleave)="showManDropdown = false">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMan" role="button" aria-haspopup="true"
-              aria-expanded="false">
-              Αντρικά 
-            </a>
-            <div class="dropdown-menu"
-              [style.display]="showManDropdown ? 'block' : 'none'"
-              aria-labelledby="navbarDropdownMan"
-              (mouseenter)="showManDropdown = true"
-              (mouseleave)="showManDropdown = false">
-              <a class="dropdown-item" href="#">Κοντομάνικα</a>
-              <a class="dropdown-item" href="#">Φούτερ</a>
-              <a class="dropdown-item" href="#">Παντελόνια</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown" (mouseenter)="toggleDropdown('woman')" (mouseleave)="showWomanDropdown = false">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownWoman" role="button" aria-haspopup="true"
-              aria-expanded="false">
-              Γυναικεία 
-            </a>
-            <div class="dropdown-menu"
-              [style.display]="showWomanDropdown ? 'block' : 'none'"
-              aria-labelledby="navbarDropdownWoman"
-              (mouseenter)="showWomanDropdown = true"
-              (mouseleave)="showWomanDropdown = false">
-              <a class="dropdown-item" href="#">Φορέματα</a>
-              <a class="dropdown-item" href="#">Φούστες</a>
-              <a class="dropdown-item" href="#">Ζακέτες</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown" (mouseenter)="toggleDropdown('child')" (mouseleave)="showChildDropdown = false">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownChild" role="button" aria-haspopup="true"
-              aria-expanded="false">
-              Παιδικά 
-            </a>
-            <div class="dropdown-menu"
-              [style.display]="showChildDropdown ? 'block' : 'none'"
-              aria-labelledby="navbarDropdownChild"
-              (mouseenter)="showChildDropdown = true"
-              (mouseleave)="showChildDropdown = false">
-              <a class="dropdown-item" href="#">Μπλούζες</a>
-              <a class="dropdown-item" href="#">Σορτσάκια</a>
-              <a class="dropdown-item" href="#">Παπούτσια</a>
-            </div>
-          </li>
-        </ul>
-
-        <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
-        <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
+      <div  class="button-container" class="collapse navbar-collapse"  [@collapseAnimation]="isCollapsed ? 'false' : 'true'" id="navbarSupportedContent">
+       
+        
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
@@ -72,12 +20,12 @@
       
         <ul class="navbar-nav ml-auto flex-row">
           <li class="nav-item">
-            <button class="btn3 btn-outline-primary mx-1"><h2><i class="bi bi-person-fill"></i></h2></button>
+           <a href="profile"> <button class="btn3 btn-outline-primary mx-1"><h2><i class="bi bi-person-fill"></i></h2></button></a>
           </li>
           <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
           
           <li class="nav-item">
-            <button class="btn3 btn-outline-primary mx-1"><h3><i class="bi bi-bag-fill"></i></h3></button>
+           <a href="simple"> <button class="btn3 btn-outline-primary mx-1"><h3><i class="bi bi-bag-fill"></i></h3></button></a>
           </li>
           <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
           <li class="nav-item">
@@ -95,7 +43,7 @@
 
         <ul>
           <li class="nav-item">
-            <button class="btn btn-outline-secondary ml-1">Logout</button>
+            <span role="button" class="btn btn-outline-secondary ml-1" (click)="logout()">Logout</span>
           </li>
         </ul>
 
@@ -106,14 +54,66 @@
 </div>
 
 
-<style>
 
-.navbar-toggler .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-</style>
+<div class="secondouter">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="navbar-nav mr-auto">
+      <li *ngFor="let category of uniquecategories" class="nav-item dropdown" >
+        <a  class="nav-link dropdown-toggle" (hover)="showdropdown" id="navbarDropdownMan" role="button" aria-haspopup="true"
+          aria-expanded="false">
+          {{ category }}
+        </a>
+        <div *ngIf="dropdownvisible">
+        <div  *ngFor="let value of separateStrings(extractFromObject(uniquesubcategoriesOfCategory,category))" class="dropdown-menu" >
+          <a  class="dropdown-item" href="#">{{separateStrings(extractFromObject(uniquesubcategoriesOfCategory,category))}}</a>
+        </div> 
+        </div>
+       
+      </li>
+     </ul>
+
+</nav>
+</div>
+
+
+<div *ngFor="let category of uniquecategories" >
+<div  *ngFor="let value of extractFromObject(uniquesubcategoriesOfCategory,category)"  >
+  <table>
+    <thead>
+      <tr>
+        <th style="color: brown;">{{ category }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <tr>
+        <td>{{ value }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div> 
+</div>
 
 
 
+<!--<div class="secondouter">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="navbar-nav mr-auto">
+      <li *ngFor="let category of uniquecategories" class="nav-item dropdown"
+          (mouseenter)="toggleDropdown(category)" 
+          (mouseleave)="toggleDropdown(category)">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMan" role="button" aria-haspopup="true" aria-expanded="false">
+          {{ category }}
+        </a>
+        <div *ngIf="showDropdown[category]" class="dropdown-menu" aria-labelledby="navbarDropdownMan">
+          <a *ngFor="let value of extractFromObject(uniquesubcategoriesOfCategory, category)"
+             class="dropdown-item" href="#">
+            {{ value }}
+          </a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>-->
 
 

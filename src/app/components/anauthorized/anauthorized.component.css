@@ -1,0 +1,35 @@
+.container {
+    background-color: #e70b0b;
+    height: 100vh;
+    
+  }
+
+
+
+.alert {
+    margin-top: 100px; 
+  }
+  
+  .alert h1 {
+    font-size: 2.5rem;
+  }
+  
+  .alert p {
+    font-size: 1.25rem;
+  }
+
+.huge-red-icon {
+    font-size: 6rem; 
+    color: red; 
+  }
+  
+  
+  .unauthorized-text {
+    font-size: 3rem; 
+    color: red; 
+    background-color: #ffc107; 
+    padding: 10px; 
+    border-radius: 10px; 
+  }
+  
+  

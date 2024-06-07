@@ -1,29 +1,31 @@
 <h2 mat-dialog-title>Τελικός έλεγχος πριν την εγγραφή</h2>
-<div mat-dialog-content>
-  <div class="outer">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card form-container">
-                  <p><strong>First Name:</strong> {{data.firstname}}</p>
-                 <p><strong>Last Name:</strong> {{data.lastname}}</p>
-                <p><strong>Phone Number:</strong> {{data.phonenumber}}</p>
-                <p><strong>Email:</strong> {{data.email}}</p>
-                <p><strong>Address:</strong> {{data.address}}</p>
-                <p><strong>Username:</strong> {{data.username}}</p>
-                <p><strong>Password:</strong> {{data.password}}</p>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<div mat-dialog-content class="dialog-content">
+  <div class="form-container">
+    <p><strong>ΟΝΟΜΑ:</strong> {{data.firstname}}</p>
+    <p><strong>ΕΠΙΘΕΤΟ:</strong> {{data.lastname}}</p>
+    <p><strong>ΤΗΛΕΦΩΝΟ:</strong> {{data.phonenumber}}</p>
+    <p><strong>Email:</strong> {{data.email}}</p>
+    <div class="address-box">
+      <p><strong>ΔΙΕΥΘΥΝΣΗ:</strong></p>
+      <div class="address-content">
+        <p><strong>ΠΟΛΗ:</strong> {{data.address.city}}</p>
+        <p><strong>ΠΕΡΙΟΧΗ:</strong> {{data.address.area}}</p>
+        <p><strong>Τ.Κ.:</strong> {{data.address.code}}</p>
+        <p><strong>ΔΡΟΜΟΣ:</strong> {{data.address.road}}</p>
+        <p><strong>ΑΡΙΘΜΟΣ:</strong> {{data.address.number}}</p>
+        <p><strong>ΟΡΟΦΟΣ:</strong> {{data.address.floor}}</p>
+        <p><strong>ΚΟΥΔΟΥΝΙ:</strong> {{data.address.bell}}</p>
+        <p><strong>ΕΙΔΙΚΑ ΣΧΟΛΙΑ:</strong> {{data.address.specifications}}</p>
+      </div>
+    </div>
+    <p><strong>Username:</strong> {{data.username}}</p>
+    <p><strong>Password:</strong> {{data.password}}</p>
+  </div>
 </div>
-  
 
 <div class="d-grid gap-2">
-  <a  role="button" href="login-form" class="btn btn-primary ">Δημιουργία λογαριασμού</a>
-   <!-- <button mat-button (click)="onCancel()">Cancel</button>-->
-    <!--<span  role="button" (click)="onCancel()" class="btn btn-primary ">Ακύρωση</span>-->
-    <a  role="button" (click)="onCancel()" class="btn btn-secondary ">Ακύρωση</a>
+  <a role="button" (click)="onCancel()" class="btn btn-secondary">OK</a>
 </div>
+
+
+ 

@@ -1,36 +1,131 @@
+.mydiv{
+  background-color: #676869;
+}
 
-
-.outer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full viewport height */
-    width: 100%; /* Full viewport width */
-    background-color: #535a60;
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
-    width: 100%; /* Ensure the container takes full width */
-    max-width: 1200px; /* Optional: Set a maximum width for larger screens */
-    margin: 0 auto; /* Center the container */
+ 
+  height: 100vh; /* 100% of the viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Additional styling for the form-container and other elements as needed */
-.form-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+/* Form Container */
+form {
+  max-width: 400px;
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
-/* Adjustments for the buttons */
+/* Form Header */
+.form-header {
+  background-color: #343a40; /* Bootstrap dark background */
+  color: #ffffff;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+/* Form Inputs and Labels */
+.form-label {
+  font-weight: 500;
+  color: #495057;
+}
+
+.form-control {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Buttons */
 .btn-primary {
-    background-color: #101011;
-    border-color:none;
+  background-color: #007bff;
+  border-color: #007bff;
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
 }
 
 .btn-secondary {
-    background-color: #515355;
-    border-color: none;
+  background-color: #6c757d;
+  border-color: #6c757d;
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+/* Error Message */
+.alert-danger {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+/* Additional Spacing */
+.mt-3 {
+  margin-top: 1rem !important;
+}
+
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.p-4 {
+  padding: 1.5rem !important;
+}
+
+.border {
+  border: 1px solid #dee2e6 !important;
+}
+
+.rounded {
+  border-radius: 0.375rem !important;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }

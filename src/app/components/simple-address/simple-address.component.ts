@@ -1,18 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Input }from '@angular/core';
+
+
 
 @Component({
   selector: 'app-simple-address',
   standalone: true,
-  imports: [],
+  imports:[],
   templateUrl: './simple-address.component.html',
-  styleUrl: './simple-address.component.css'
+  styleUrls: ['./simple-address.component.css']
 })
 export class SimpleAddressComponent {
- 
   
-  
-
-
- 
 
 }

@@ -26,3 +26,29 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
+.address-container {
+    border: 1px solid #8e8a8a;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.address-group {
+    margin-bottom: 10px;
+}
+.form-title {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+.form-control {
+    font-size: 0.875rem;
+    padding: 5px 10px;
+}
+.text-danger {
+    font-size: 0.75rem;
+}

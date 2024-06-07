@@ -7,21 +7,31 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ReviewWindowComponent } from '../review-window/review-window.component';
 import { FormsModule } from '@angular/forms';
-import{User} from 'src/app/shared/interfaces/user';
 import { AddressReviewComponent } from '../address-review/address-review.component';
+import { SimpleAddressComponent } from '../simple-address/simple-address.component';
 
 @Component({
   selector: 'app-address',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogModule,ReviewWindowComponent],
+  imports: [FormsModule,ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatDialogModule,ReviewWindowComponent, SimpleAddressComponent],
   templateUrl: './address.component.html',
   styleUrl: './address.component.css'
 })
 export class AddressComponent {
- 
+
+  addressData = {
+    city: 'Αθήνα',
+    area: 'Μαρούσι',
+    code: '15125',
+    road: 'Ρόδου',
+    number: '12',
+    bell: 'Στεργίου',
+    specifications: 'Το κουδούνι δε δουλεύει..Τηλέφωνο για να σας ανοίξουμε'
+  };
 
 
-  
+
+
   form = new FormGroup({
     city: new FormControl('',Validators.required),
     area: new FormControl('',Validators.required),
@@ -32,6 +42,8 @@ export class AddressComponent {
     bell: new FormControl('',[Validators.required]),
     specifications : new FormControl('')
   });
+
+  confirmedAddress: any;
 
   constructor(public dialog: MatDialog) {}
 
@@ -50,9 +62,9 @@ export class AddressComponent {
         specifications : this.form.get('specifications').value
       }
     });
+
   }
 
  
-
 
 }
