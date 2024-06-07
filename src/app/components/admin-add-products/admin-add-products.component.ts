@@ -64,6 +64,8 @@ export class AdminAddProductsComponent implements OnInit, OnDestroy {
     this.productForm.patchValue({
       subcategory: subcategory
     });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   

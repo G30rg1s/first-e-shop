@@ -1,3 +1,5 @@
+
+
 .outer {
     display: flex;
     justify-content: center;
@@ -24,11 +26,11 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #a7a1a1;
-    margin-right: 20px; /* Add right margin for space between containers */
+    margin-right: 20px; 
   }
   
   .form-container:last-child {
-    margin-right: 0; /* Remove margin from the last container to avoid extra space */
+    margin-right: 0; 
   }
   .form-title {
     margin-bottom: 15px;
@@ -63,7 +65,7 @@
 
   .button-container {
     display: block;
-    margin-bottom: 10px; /* Add space between buttons */
+    margin-bottom: 10px; 
   }
   
   .button-container:last-child {
@@ -87,3 +89,12 @@
     background-color: #e8298c;
     transform: scale(1.1);
   }
+
+  /**--------------------------------------------------------------------------------------------------------------------------*/
+
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure the navbar appears above other content */
+}
+

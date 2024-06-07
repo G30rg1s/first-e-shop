@@ -46,8 +46,11 @@ export class MenuComponent implements OnInit {
   adminReadProductsSubscription: Subscription | undefined;
   selectedCategory: string;
   selectedSubcategory: string;
-  dropdownvisible: boolean = false;
+  isHoveringSubcategory: boolean = false;
+  subcategoryTimeout: { [key: string]: any } = {};
   isCollapsed = true;
+  dropdownvisible: { [key: string]: boolean } = {};
+  isMouseOverButton: boolean = false; 
     
     
   
@@ -171,9 +174,49 @@ export class MenuComponent implements OnInit {
       return separatedStrings;
     }
 
-    showdropdown(){
+    /**showdropdown(){
       this.dropdownvisible=true
-    }
+    }*/
+
+      toggleDropdown(category: string) {
+        this.dropdownvisible[category] = !this.dropdownvisible[category];
+      }
+      toggleDropdown2(category: string) {
+        this.dropdownvisible[category] = true;
+      }
+
+      startTimeout(category: string) {
+        
+        setTimeout(() => {
+          if (!this.mouseStillOver(category)) {
+            this.dropdownvisible[category] = false;
+          }
+        }, 1000);
+      }
+    
+      mouseStillOver(category: string): boolean {
+        return false;
+      }
+    
+      onMouseLeave() {
+        this.isMouseOverButton = false;
+      }
+
+   
+
+      startSubcategoryTimeout(category: string) {
+        this.subcategoryTimeout[category] = setTimeout(() => {
+          this.isHoveringSubcategory[category] = false;
+        }, 500); // Adjust the timeout duration as needed
+      }
+      
+      clearTimeout() {
+        Object.keys(this.subcategoryTimeout).forEach(category => {
+          clearTimeout(this.subcategoryTimeout[category]);
+        });
+      }
+    
+    
    
 
   toggleCollapse() {

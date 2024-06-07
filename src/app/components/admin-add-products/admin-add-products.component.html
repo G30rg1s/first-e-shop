@@ -20,17 +20,21 @@
         <div class="forms-container">
           <div class="existings category form-container">
             <h2 class="form-title"><h1>Υπάρχουσες κατηγορίες</h1></h2>
+            
             <div *ngFor="let category of uniquecategories" class="button-container">
               <button (click)="selectCategory(category)">{{ category }}</button>
             </div>
           </div>
+          
+          
           <div class="existings subcategory form-container">
             <h2 class="form-title"><h1>Υπάρχουσες υποκατηγορίες</h1></h2>
             <div *ngFor="let subcategory of uniquesubcategories" class="button-container">
               <button (click)="selectSubcategory(subcategory)">{{ subcategory }}</button>
             </div>
           </div>
-          <div class="product-form form-container">
+         
+          <div class="product-form form-container sticky-product-form">
             <h2 class="form-title"><h1>Προιόν</h1></h2>
             <form [formGroup]="productForm">
               <div class="form-group">

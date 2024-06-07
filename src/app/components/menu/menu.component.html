@@ -52,47 +52,71 @@
     </div>
   </nav>
 </div>
-
-
+<!--   ---------------------------------------------------------------------------------------------------------------------------   -->
 
 <div class="secondouter">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <ul class="navbar-nav mr-auto">
-      <li *ngFor="let category of uniquecategories" class="nav-item dropdown" >
-        <a  class="nav-link dropdown-toggle" (hover)="showdropdown" id="navbarDropdownMan" role="button" aria-haspopup="true"
-          aria-expanded="false">
+  <div class="tablediv">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div *ngFor="let category of uniquecategories" class="nav-item" #categoryDiv>
+        <button (mouseenter)="toggleDropdown(category)" (mouseleave)="startTimeout(category)" class="btn btn-link  btn-category" style="color: brown;">
           {{ category }}
-        </a>
-        <div *ngIf="dropdownvisible">
-        <div  *ngFor="let value of separateStrings(extractFromObject(uniquesubcategoriesOfCategory,category))" class="dropdown-menu" >
-          <a  class="dropdown-item" href="#">{{separateStrings(extractFromObject(uniquesubcategoriesOfCategory,category))}}</a>
-        </div> 
-        </div>
+        </button>
        
-      </li>
-     </ul>
-
-</nav>
+        <div class="dropdown-content" *ngIf="dropdownvisible[category] || isHoveringSubcategory" [style.left.px]="categoryDiv.getBoundingClientRect().left">
+          <table class="subctable">
+            <tbody class="subcatbody">
+              <tr *ngFor="let value of extractFromObject(uniquesubcategoriesOfCategory, category)">
+                <td><button class="subcatbtn" (mouseenter)="isHoveringSubcategory = true" (mouseleave)="startSubcategoryTimeout(category)" >{{ value }}</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </nav>
+  </div>
 </div>
 
 
-<div *ngFor="let category of uniquecategories" >
-<div  *ngFor="let value of extractFromObject(uniquesubcategoriesOfCategory,category)"  >
-  <table>
-    <thead>
-      <tr>
-        <th style="color: brown;">{{ category }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      
-      <tr>
-        <td>{{ value }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div> 
-</div>
+
+
+
+
+
+
+
+
+
+
+<!--<div class="secondouter">
+  <div class="tablediv">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div *ngFor="let category of uniquecategories" class="nav-item">
+        <button (hover)="toggleDropdown(category)" class="btn btn-link" style="color: brown;">
+          {{ category }}
+        </button>
+      </div>
+    </nav>
+    <div class="bodydiv">
+      <div *ngFor="let category of uniquecategories">
+        <div *ngIf="dropdownvisible[category]">
+          <table>
+            <tbody>
+              <tr *ngFor="let value of extractFromObject(uniquesubcategoriesOfCategory, category)">
+                <td>{{ value }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+
+
+
+
+
 
 
 
@@ -115,5 +139,27 @@
     </ul>
   </nav>
 </div>-->
+
+
+<!--<div class="secondouter">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="navbar-nav mr-auto">
+      <li *ngFor="let category of uniquecategories" class="nav-item dropdown" >
+        <a  class="nav-link dropdown-toggle" (hover)="showdropdown" id="navbarDropdownMan" role="button" aria-haspopup="true"
+          aria-expanded="false">
+          {{ category }}
+        </a>
+        <div *ngIf="dropdownvisible">
+        <div  *ngFor="let value of separateStrings(extractFromObject(uniquesubcategoriesOfCategory,category))" class="dropdown-menu" >
+          <a  class="dropdown-item" href="#">{{separateStrings(extractFromObject(uniquesubcategoriesOfCategory,category))}}</a>
+        </div> 
+        </div>
+       
+      </li>
+     </ul>
+
+</nav>
+</div>-->
+
 
 
