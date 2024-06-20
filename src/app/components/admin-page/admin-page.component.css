@@ -199,7 +199,7 @@
     padding: 40px;
     width: 150%; 
     max-width: 900px; 
-    height: 550px; 
+    height: 575px; 
     margin: 0 auto;
   }
   
@@ -593,6 +593,20 @@
   }
   
   /**  --------------------------------------- detailed delivery box end ----------------------------------------------------------------  */
+
+  .lastclick:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+
+  .messageBox {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 
   
 

@@ -19,10 +19,11 @@
   <div class="button-wrapper">
     <div class="button-container" >
       <div class="buttonstitle"><h5>Προνόμια ADMIN</h5></div>
+      <p style="color: red;">*Διαγραφή ενεργή μόνο όταν δεν υπάρχουν παραγγελίες σε εκκρεμότητα</p>
       <button class="btn2 btn-primary2" (click)="opendeliveryboxes()">Παραγγελίες σε εκκρεμότητα</button>
       <button class="btn2 btn-primary2" (click)="showAllUsers()">Όλοι οι χρήστες</button>
       <button class="btn2 btn-primary2" (click)="showAllproducts()">Όλα τα προιόντα</button>
-      <button class="btn2 btn-primary2" (click)="openMassiveDelete()">Μαζική διαγραφή προιόντων</button>
+      <button [disabled]="deliveryboxes.length > 0" class="btn2 btn-primary2" (click)="openMassiveDelete()">Μαζική διαγραφή προιόντων</button>
       <a href="adminaddproducts"><button class="btn2 btn-primary2">Προσθήκη προιόντων</button></a>
       <a href="menu"><button class="btn2 btn-primary2">Μετάβαση στο menu ...</button></a>
         </div>
@@ -180,7 +181,7 @@
               <td ><strong style="color: rgb(207, 12, 12);">{{ product.price }}</strong> <i style="color: rgb(0, 0, 0);" class="bi bi-currency-euro"></i> </td>
               <td ><strong style="color: rgb(34, 13, 187);">{{ product.amount }}</strong> τμχ.</td>
               <td><button class="btn btn-outline-primary button-icons" (click)="openUpdate(product)"><i class="bi bi-pencil-square"></i></button></td>
-              <td><button class="btn btn-outline-primary button-icons" (click)="openDelete(product)"><i style="color: rgb(255, 0, 0);" class="bi bi-trash3"></i></button></td>
+              <td><button [disabled]="deliveryboxes.length > 0" class="btn btn-outline-primary button-icons" (click)="openDelete(product)"><i style="color: rgb(255, 0, 0);" class="bi bi-trash3"></i></button></td>
             </tr>
           </ng-container>
           <ng-container *ngIf="searchQuery1 !== ''">
@@ -191,7 +192,7 @@
               <td ><strong style="color: rgb(207, 12, 12);">{{ product.price }}</strong> <i style="color: rgb(0, 0, 0);" class="bi bi-currency-euro"></i> </td>
               <td ><strong style="color: rgb(34, 13, 187);">{{ product.amount }}</strong> τμχ.</td>
               <td><button class="btn btn-outline-primary button-icons" (click)="openUpdate(product)"><i class="bi bi-pencil-square"></i></button></td>
-              <td><button class="btn btn-outline-primary button-icons" (click)="openDelete(product)"><i style="color: rgb(255, 0, 0);" class="bi bi-trash3"></i></button></td>
+              <td><button [disabled]="deliveryboxes.length > 0" class="btn btn-outline-primary button-icons" (click)="openDelete(product)"><i style="color: rgb(255, 0, 0);" class="bi bi-trash3"></i></button></td>
             </tr>
           </ng-container>
         </tbody>
@@ -344,6 +345,9 @@
                 <p>Ποσότητα: <strong style="color: red;">{{ product.purchaseamount }}</strong> τεμάχια</p>
               </div>
             </div>
+            
+            <button onmouseenter="showMessage()" onmouseleave="hideMessage()" class="dlvrbtn  lastclick" (click)="adminfinisheddelivery(detaileddeliverybox.boxkey)" style="background-color: red; color: aliceblue;">!!!!!!! ΟΛΟΚΛΗΡΩΣΗ ΔΙΑΔΙΚΑΣΙΑΣ ΑΠΟΣΤΟΛΗΣ !!!!!!!!!</button>
+            <div id="messageBox" class="messageBox">Your message here</div>
           </div>
         </div>
       </div>

@@ -48,6 +48,7 @@ export class AdminPageComponent implements OnInit, OnDestroy {
   uniquebrands: string[];
   detaileddeliverybox: Box;
   
+  
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private productService:ProductService) {}
 
@@ -60,9 +61,10 @@ export class AdminPageComponent implements OnInit, OnDestroy {
   deliveryboxesvisible: boolean = false;
   detaileddeliveryvisible: boolean = false;
   navVisible: boolean = true;
+  
 
   opendeliveryboxes(){
-    this.adminDoDelivery();
+    //this.adminDoDelivery();
     this.deliveryboxesvisible=true;
     this.showButtons=false;
     //this.navVisible=false;
@@ -187,7 +189,27 @@ export class AdminPageComponent implements OnInit, OnDestroy {
     } else {
       console.error('JWT token not found in local storage');
     }
-  }
+
+
+    this.adminDeliverySubscription = this.productService.deliveryPending()
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching boxes:', error);
+         
+          return throwError(error);
+        })
+      )
+      .subscribe(
+        (admindodelivery: Box[]) => {
+          this.deliveryboxes = admindodelivery;
+          //console.log('PRODUCTS:', this.deliveryboxes);
+          
+
+        }
+        
+      );
+
+ }
 
 
   ngOnDestroy(): void {
@@ -243,7 +265,7 @@ export class AdminPageComponent implements OnInit, OnDestroy {
       .subscribe(
         (admindodelivery: Box[]) => {
           this.deliveryboxes = admindodelivery;
-          console.log('PRODUCTS:', this.deliveryboxes);
+          //console.log('PRODUCTS:', this.deliveryboxes);
         }
       );
       }
@@ -538,7 +560,6 @@ private unsubscribe(): void {
 
 
 
-
 massivedeleteProducts(): void {
   if (this.massivedeleteproductForm.valid) {
     const category = this.massivedeleteproductForm.get('category').value;
@@ -552,7 +573,7 @@ massivedeleteProducts(): void {
     this.productService.massiveDeleteProducts(category, subcategory, brand ).subscribe({
       next: response => {
         console.log(response.message);
-        location.reload(); // Reload the page after deletion (consider using a more refined approach)
+        location.reload(); 
       },
       error: error => console.error('Error massive delete product:', error)
     });
@@ -560,5 +581,20 @@ massivedeleteProducts(): void {
     console.error('Invalid product form');
   }
 }
-  
+
+
+adminfinisheddelivery(boxkey: string) {
+  this.productService.adminFinishDelivery(boxkey).subscribe({
+    next: response => {
+      console.log(response.msg); 
+      location.reload(); 
+    },
+    error: error => {
+      console.error('Error finishing delivery:', error);
+      
+    }
+  });
+}
+
+
 }

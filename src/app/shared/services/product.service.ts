@@ -166,7 +166,7 @@ export class ProductService {
 
 
   massiveDeleteProducts(category: string, subcategory: string, brand: string): Observable<any> {
-    console.log('dlf', category, subcategory,brand);
+    console.log('dlt', category, subcategory,brand);
     const token = localStorage.getItem('access_token');
     if (!token) {
       console.error('JWT token not found in local storage');
@@ -222,6 +222,14 @@ export class ProductService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     
     return this.http.get<{ msg: string, purchases?: any[] }>(url, { headers });
+  }
+
+  adminFinishDelivery(boxkey: string): Observable<{ msg: string, purchases?: any[] }> {
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL_BOX}/finish_delivery/${boxkey}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    return this.http.patch<{ msg: string, purchases?: any[] }>(url, {}, { headers });
   }
 
   detailedPastBox(username: string, boxkey: string): Observable<any>{
