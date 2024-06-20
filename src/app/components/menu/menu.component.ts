@@ -12,6 +12,7 @@ import { Product } from 'src/app/shared/interfaces/product';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Box, ProductBuy } from 'src/app/shared/interfaces/box';
 import { NumService } from 'src/app/shared/services/num.service';
+import { UsernameService } from 'src/app/shared/services/username.service';
 import { TempboxService } from 'src/app/shared/services/tempbox.service';
 
 
@@ -85,7 +86,7 @@ export class MenuComponent implements OnInit {
   mypastBoxes: Box[];
   mydetailedpastbox: Box;
   detailedpastboxvisible: boolean = false;
-  curentuser:UserNum;
+  curentuser: string;
 
 
   
@@ -102,8 +103,8 @@ export class MenuComponent implements OnInit {
     
     
   
-    constructor(private tempboxService: TempboxService,private numService: NumService,private formBuilder: FormBuilder, private userService: UserService, private productService:ProductService) {
-      
+    constructor(private usernameservice: UsernameService, private tempboxService: TempboxService,private numService: NumService,private formBuilder: FormBuilder, private userService: UserService, private productService:ProductService) {
+      this.curentuser = this.usernameservice.getusername();
       this.num = this.numService.getNum();
       this.boxstring = this.tempboxService.getBoxKey();
     }
@@ -243,6 +244,17 @@ export class MenuComponent implements OnInit {
     
   
    ngOnInit(): void {
+    this.userUsername = this.userService.getUserusername();
+    if(this.userUsername != this.usernameservice.getusername()){
+        this.numService.setNum(0);
+        this.num = this.numService.getNum();
+        this.deletetempboxOnInit();
+        //this.tempboxService.setBoxKey(''); 
+        this.usernameservice.setusername(this.userUsername); 
+      }
+    
+    console.log('curent',this.curentuser)
+    
 
     this.detailedpastboxvisible= false;
     
@@ -496,6 +508,7 @@ export class MenuComponent implements OnInit {
         this.numService.setNum(1);
         this.num = this.numService.getNum();
         this.tempboxService.setBoxKey(boxkey); 
+        
 
       
         
@@ -614,6 +627,27 @@ export class MenuComponent implements OnInit {
       
     });
     this.opendeletetempbox();
+  }
+
+
+
+  deletetempboxOnInit(){
+    const boxkey = this.tempboxService.getBoxKey();
+    const username = this.curentuser; 
+    
+    console.log('',boxkey,username);
+    this.productService.Deletetempbox(boxkey, username).subscribe({
+      next: (response) => {
+        console.log('Product updated successfully:', response);
+        console.log('num = ', this.num)
+      },
+     
+      error: (error) => {
+        console.error('Error updating product:', error);
+      }
+      
+    });
+    //this.opendeletetempbox();
   }
 
 
