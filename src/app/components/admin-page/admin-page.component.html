@@ -1,4 +1,4 @@
-<div class="mydiv">
+<div *ngIf="navVisible" class="mydiv">
   <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
       <div class="d-flex justify-content-between align-items-center w-100">
@@ -8,18 +8,23 @@
         <span class="navbar-text text-white">
           <h3>{{ userData?.firstname }} {{ userData?.lastname }}</h3>
         </span>
+        <a href="boss-page" ><span *ngIf="userRole.trim()==='truetruetrue'" role="button" class="btn btn-outline-secondary ml-1">boss page...</span></a>
         <span role="button" class="btn btn-outline-secondary ml-1" (click)="logout()">Logout</span>
       </div>
     </div>
   </nav>
+
+  
   <div class="newdiv" *ngIf="showButtons">
   <div class="button-wrapper">
     <div class="button-container" >
-      <div class="buttonstitle"><h1>Προνόμια</h1></div>
+      <div class="buttonstitle"><h5>Προνόμια ADMIN</h5></div>
+      <button class="btn2 btn-primary2" (click)="opendeliveryboxes()">Παραγγελίες σε εκκρεμότητα</button>
       <button class="btn2 btn-primary2" (click)="showAllUsers()">Όλοι οι χρήστες</button>
       <button class="btn2 btn-primary2" (click)="showAllproducts()">Όλα τα προιόντα</button>
+      <button class="btn2 btn-primary2" (click)="openMassiveDelete()">Μαζική διαγραφή προιόντων</button>
       <a href="adminaddproducts"><button class="btn2 btn-primary2">Προσθήκη προιόντων</button></a>
-      <a href="menu"><button class="btn2 btn-primary2">Μετάβαση στο menu</button></a>
+      <a href="menu"><button class="btn2 btn-primary2">Μετάβαση στο menu ...</button></a>
         </div>
   </div>
   </div>
@@ -237,3 +242,114 @@
     <button class="deletebtn" (click)="deleteOneProduct(selectDeleteProduct)">Διαγραφή</button>
     <button class="closebtn" (click)="closeDelete(selectUpdateProduct)">ΑΚΥΡΟ</button>
   </div>
+
+
+  <!--  --------------------------- massive delete -------------------------------------------------------------------------------- -->
+
+
+  <div *ngIf="massiveDeletevisible" class="outer">
+    <div class="container">
+      <div class="forms-container">
+        <div class="form-container masexistings category">
+          <h2 class="form-title">Υπάρχουσες κατηγορίες</h2>
+          <div *ngFor="let category of uniquecategories" class="button1-container">
+            <button (click)="selectCategory(category)" class="btn btn-primary">{{ category }}</button>
+          </div>
+        </div>
+  
+        <div class="form-container masexistings subcategory">
+          <h2 class="form-title">Υπάρχουσες υποκατηγορίες</h2>
+          <div *ngFor="let subcategory of uniquesubcategories" class="button1-container">
+            <button (click)="selectSubcategory(subcategory)" class="btn btn-primary">{{ subcategory }}</button>
+          </div>
+        </div>
+  
+        <div class="form-container masexistings brands">
+          <h2 class="form-title">Υπάρχουσες μάρκες</h2>
+          <div *ngFor="let brand of uniquebrands" class="button1-container">
+            <button (click)="selectBrand(brand)" class="btn btn-primary">{{ brand }}</button>
+          </div>
+        </div>
+  
+        <div class="form-container masproduct-form sticky-product-form">
+          <h2 class="form-title">Προϊόν</h2>
+          <form [formGroup]="massivedeleteproductForm">
+            <div class="form-group">
+              <label for="category" class="form-label">Κατηγορία</label>
+              <input type="text" id="category" formControlName="category" class="form-control masform-control">
+            </div>
+            <div class="form-group">
+              <label for="subcategory" class="form-label">Υποκατηγορία</label>
+              <input type="text" id="subcategory" formControlName="subcategory" class="form-control masform-control">
+            </div>
+            <div class="form-group">
+              <label for="brand" class="form-label">Μάρκα</label>
+              <input type="text" id="brand" formControlName="brand" class="form-control masform-control">
+            </div>
+            <button type="submit" [disabled]="!massivedeleteproductForm.valid" class="btn btn-primary masbtn-primary" (click)="massivedeleteProducts()">DELETE</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+   
+
+   <!--  --------------------------- massive delete end -------------------------------------------------------------------------------- -->
+
+   <!--  ----------------------------------- delivery boxes ----------------------------------------------------------------------------------  -->
+
+   <div class="deliveryboxes" *ngIf="deliveryboxesvisible">
+    <h2>Παραγγελίες σε εκκρεμότητα<button class="dlvrbtn" (click)="closedeliveryboxes()"><i class="bi bi-x-octagon" style="color: red;"></i></button></h2>
+    <div class="scrollable">
+      <div class="dlvr_boxes" *ngFor="let box of deliveryboxes" class="delivery-area">
+        <p><span type="button" (click)="opendetaileddelivery(box)" style="background-color: antiquewhite; color: black; border: 2px; border-color: black;">{{ box.deliveryaddress.city }} - {{ box.deliveryaddress.area }}</span></p>
+      </div>
+    </div>
+  </div>
+  <ng-template #noPurchases>
+    <p>No pending purchases found.</p>
+  </ng-template>
+  
+
+    
+     <!--  ----------------------------------- delivery boxes end ----------------------------------------------------------------------------------  -->
+
+
+     <!--  ------------------------------------ detailed delivery box -----------------------------------------------------------------------  -->
+
+     <div class="delivery-boxes-container" *ngIf="detaileddeliveryvisible">
+      <div class="delivery-box">
+        <div class="box-header">
+         <span><button class="dlvrbtn" (click)="closedetaileddelivery()"><i class="bi bi-x-octagon" style="color: red;"></i></button></span>
+          <span>Κωδικός παραγγελίας: <h3 style="color: red;"><strong>{{ detaileddeliverybox.boxkey }}</strong></h3></span>
+          <p>Ημερομηνία-ώρα αποστολής: {{ detaileddeliverybox.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+        </div>
+        <div class="box-content">
+          <p><strong>Πελάτης:</strong> {{ detaileddeliverybox.fullname }}</p>
+          <div class="address-details">
+            <p><strong>Διεύθηνση παράδοσης:</strong></p>
+            <p>{{ detaileddeliverybox.deliveryaddress.area }}, {{ detaileddeliverybox.deliveryaddress.city }}, {{ detaileddeliverybox.deliveryaddress.code }}</p>
+            <p>Οδός: {{ detaileddeliverybox.deliveryaddress.road }} {{ detaileddeliverybox.deliveryaddress.number }}</p>
+            <p>Κουδούνι: {{ detaileddeliverybox.deliveryaddress.bell }}</p>
+            <p>Όροφος: {{ detaileddeliverybox.deliveryaddress.floor }}</p>
+            <p>Σχόλια: {{ detaileddeliverybox.deliveryaddress.specifications }}</p>
+          </div>
+          <div class="products-list">
+            <p><strong>Προϊόντα:</strong></p>
+            <div *ngFor="let product of detaileddeliverybox.products" class="product-item">
+              <div class="product-info">
+                <p>{{ product.product.category }} {{ product.product.subcategory }} --- {{ product.product.brand }} <span style="color: rgb(202, 14, 180);">{{ product.product.key }}</span> </p>
+                <p>Ποσότητα: <strong style="color: red;">{{ product.purchaseamount }}</strong> τεμάχια</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--  ------------------------------------ detailed delivery box end -----------------------------------------------------------------------  -->
+
+    

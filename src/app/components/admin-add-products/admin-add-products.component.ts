@@ -57,6 +57,7 @@ export class AdminAddProductsComponent implements OnInit, OnDestroy {
     this.productForm.patchValue({
       category: category
     });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   selectSubcategory(subcategory: string) {
@@ -86,14 +87,14 @@ export class AdminAddProductsComponent implements OnInit, OnDestroy {
       );
 
       
-        this.productForm = this.formBuilder.group({
-          key: [''],
-          category: ['', Validators.required],
-          subcategory: ['', Validators.required],
-          brand: ['', Validators.required],
-          price: [0, Validators.required],
-          amount: [0]
-        });
+      this.productForm = this.formBuilder.group({
+        key: [''],
+        category: ['', Validators.required],
+        subcategory: ['', Validators.required],
+        brand: ['', Validators.required],
+        price: [0, Validators.required],
+        amount: [0]
+      });
   }
 
   private unsubscribe(): void {

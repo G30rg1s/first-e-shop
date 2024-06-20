@@ -65,3 +65,10 @@ export interface Credentials {
    roles_string : string;
  }
 
+
+
+ export interface UserNum{
+  username:string
+  num:number
+ }
+

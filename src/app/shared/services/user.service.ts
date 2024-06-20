@@ -38,6 +38,7 @@ export class UserService {
     });
   }
 
+  
   getUser(): LoggedInUser | null {
     return this.user();
   }
@@ -45,6 +46,13 @@ export class UserService {
   getUserRoles(): string | null {
     const loggedInUser = this.user();
     return loggedInUser ? loggedInUser.roles : null;
+  }
+
+  
+
+  getUserusername(): string | null {
+    const loggedInUser = this.user();
+    return loggedInUser ? loggedInUser.username : null;
   }
 
   registerUser(user: User) {
@@ -208,19 +216,30 @@ export class UserService {
         })
       );
   }
-}
-  /**getUsers(): Observable<AdminReadUsers[]> {
+
+
+  updateRole(username: string, role1 : string): Observable<any> {
     const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    });
+    if (!token) {
+      console.error('JWT token not found in local storage');
+      return throwError('JWT token not found');
+    }
+    console.log('the role is :', role1);
+    console.log('the username is :', username);
+    
+    const url = `${API_URL}/update_role/${role1}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const body = { username};
+    
+    return this.http.patch<any>(url, body, { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
-    return this.http.get<AdminReadUsers[]>(`${API_URL}/users`, { headers }).pipe(
-      catchError(this.handleError)
-    );
-  }*/
 
+}
+  
   
 
   

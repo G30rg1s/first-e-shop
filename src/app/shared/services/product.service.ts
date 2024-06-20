@@ -6,8 +6,13 @@ import { Product } from '../interfaces/product';
 import { Router } from '@angular/router';
 import {jwtDecode } from 'jwt-decode';
 import { Observable, catchError, throwError } from 'rxjs';
+import { Logs } from 'src/app/shared/interfaces/logs';
+import { Box, ProductBuy } from '../interfaces/box';
+
 
 const API_URL = `${environment.apiURL}/product`;
+const API_URL_LOGS =  `${environment.apiURL}/logs`;
+const API_URL_BOX = `${environment.apiURL}/purchase`;
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +80,9 @@ export class ProductService {
   }
 
 
+  
+
+
   getProducts(): Observable<Product[]> {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -90,12 +98,35 @@ export class ProductService {
           if (error.status === 401) {
             
           }
-          console.error('Error fetching products:', error);
+          console.error('Error fetching logs:', error);
           return throwError(error);
         })
       );
   }
 
+  getlogs(): Observable<Logs[]> {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      console.error('JWT token not found in local storage');
+      return throwError('JWT token not found');
+    }
+    const url = `${API_URL_LOGS}/bossgetlogs`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    return this.http.get<Logs[]>(url, { headers })
+      .pipe(
+        catchError(error => {
+          if (error.status === 401) {
+            
+          }
+          console.error('Error fetching logs:', error);
+          return throwError(error);
+        })
+      );
+  }
+
+
+ 
 
 
   updateProduct(key: string, price: number, amount: number): Observable<any> {
@@ -133,6 +164,124 @@ export class ProductService {
     );
   }
 
+
+  massiveDeleteProducts(category: string, subcategory: string, brand: string): Observable<any> {
+    console.log('dlf', category, subcategory,brand);
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      console.error('JWT token not found in local storage');
+      return throwError('JWT token not found');
+    }
+    
+    const url = `${API_URL}/massive_delete_products/${category}/${subcategory}/${brand}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+   
+    
+    return this.http.delete<any>(url, { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  
+
+  registerbox(boxkey: string, username: string, productkey: string): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL_BOX}/add_purchase`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const fullname = this.decodeJwtToken(token).sub.fullname;
+    
+    const body = {boxkey, username,fullname, productkey };
+    
+    return this.http.post<{ msg: string }>(url, body, {headers});
+  }
+
+
+  addmoretobox(boxkey: string, username: string, productkey: string): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL_BOX}/add_more`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+   
+
+    const body = {boxkey, username, productkey };
+    
+    return this.http.post<{ msg: string }>(url, body, {headers});
+  }
+
+
+  tempBox(username: string): Observable<any>{
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL_BOX}/user_tempbox/${username}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    return this.http.get<{ msg: string, purchases?: any[] }>(url, { headers });
+  }
+
+  deliveryPending(): Observable<any>{
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL_BOX}/delivery_pending`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    return this.http.get<{ msg: string, purchases?: any[] }>(url, { headers });
+  }
+
+  detailedPastBox(username: string, boxkey: string): Observable<any>{
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL_BOX}/detailed_pastbox/${username}/${boxkey}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    return this.http.get<{ msg: string, purchases?: any[] }>(url, { headers });
+  }
+
+
+  pastBoxes(username: string): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL_BOX}/user_pasttempboxes/${username}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    return this.http.get<{ msg: string, purchases?: any[] }>(url, { headers });
+  }
+
+
+
+  checkoutservice(boxkey: string, username: string, deliveryaddress : Address, products: ProductBuy[]): Observable<{ msg: string, purchases?: any[] }> {
+    console.log('proserv', products);
+    console.log('deliveryto', deliveryaddress);
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL_BOX}/checkout_box/${boxkey}/${username}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const body = {deliveryaddress, products };  // Include products in the body
+  
+    return this.http.patch<{ msg: string, purchases?: any[] }>(url, body, { headers });
+  }
+
+
+
+  Deletetempbox(boxkey: string , username: string): Observable<any> {
+    console.log('deletebox', boxkey, username);
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      console.error('JWT token not found in local storage');
+      return throwError('JWT token not found');
+    }
+    
+    const url = `${API_URL_BOX}/delete_tempbox/${boxkey}/${username}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+   
+    
+    return this.http.delete<any>(url, { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+
+  }
+
+  DeleteProductFromTempbox(boxkey: string, username: string, productkey: string): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL_BOX}/delete_tempbox_product/${boxkey}/${username}/${productkey}`;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete<{ msg: string }>(url,{headers});
+  }
+  
   
 }
   

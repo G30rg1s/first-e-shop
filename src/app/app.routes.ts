@@ -16,6 +16,7 @@ import { DefineRoleComponent } from './components/define-role/define-role.compon
 import { AnauthorizedComponent } from './components/anauthorized/anauthorized.component';
 import { AdminAddProductsComponent } from './components/admin-add-products/admin-add-products.component';
 
+
 export const routes: Routes = [
     { path: '', component: WelcomeComponent },
     {path:'login-form' , component:LoginFormComponent},
@@ -30,6 +31,7 @@ export const routes: Routes = [
     {path:'contact-shop', component:ContactShopComponent},
     {path:'profile', component: ProfileComponent},
     {path:'simple', component: SimpleAddressComponent},
-    {path:'adminaddproducts', component:AdminAddProductsComponent, canActivate: [roleauthGuard],data: { roles: 'truetruefalse' }}
+    {path:'adminaddproducts', component:AdminAddProductsComponent, canActivate: [roleauthGuard],data: { roles: 'truetruefalse' }},
+   
    
 ];

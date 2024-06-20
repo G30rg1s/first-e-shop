@@ -1,6 +1,9 @@
-<div class="myOuter">
+<div *ngIf="navbarvisible" class="myOuter">
  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
+      <div *ngIf="userRole.trim()==='truetruetrue'" class="btn btn-primary btn-lg  ml-auto mr-3"> <a href="boss-page" ><span role="button" class="btn btn-outline-secondary ml-1">boss page...</span></a></div>
+      <div  *ngIf="userRole.trim()==='truetruetrue' || userRole.trim()==='truetruefalse' " class="btn btn-primary btn-lg  ml-auto mr-3"><a href="admin-page"><span role="button" class="btn btn-outline-secondary ml-1" >admin page...</span></a></div>
+        
       <a class="navbar-brand"><h2>Επιλογή προϊόντων</h2></a>
       <button class="navbar-toggler" style="border-color: white;" type="button" (click)="toggleCollapse()" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,9 +16,17 @@
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
+       <button type="button" (click)="showAllproducts()" class="btn3 btn-outline-primary mx-1" style="background-color: brown; color: #333;" ><i class="bi bi-search"></i></button>
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
+        <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
+        
+        
+      
+      
+       
+        
 
       
         <ul class="navbar-nav ml-auto flex-row">
@@ -25,7 +36,7 @@
           <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
           
           <li class="nav-item">
-           <a href="simple"> <button class="btn3 btn-outline-primary mx-1"><h3><i class="bi bi-bag-fill"></i></h3></button></a>
+           <a > <button class="btn3 btn-outline-primary mx-1" (click)="opentempbox(tempbox)"><h3><i class="bi bi-bag-fill"></i></h3></button></a>
           </li>
           <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
           <li class="nav-item">
@@ -39,11 +50,17 @@
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
         <div class="btn btn-primary btn-lg  ml-auto mr-3"></div>
+       
+        
+        
+        
         
 
         <ul>
           <li class="nav-item">
             <span role="button" class="btn btn-outline-secondary ml-1" (click)="logout()">Logout</span>
+            
+            
           </li>
         </ul>
 
@@ -52,9 +69,9 @@
     </div>
   </nav>
 </div>
-<!--   ---------------------------------------------------------------------------------------------------------------------------   -->
 
-<div class="secondouter">
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+<div *ngIf="menunavbarvisible" class="secondouter">
   <div class="tablediv">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div *ngFor="let category of uniquecategories" class="nav-item" #categoryDiv>
@@ -66,7 +83,7 @@
           <table class="subctable">
             <tbody class="subcatbody">
               <tr *ngFor="let value of extractFromObject(uniquesubcategoriesOfCategory, category)">
-                <td><button class="subcatbtn" (mouseenter)="isHoveringSubcategory = true" (mouseleave)="startSubcategoryTimeout(category)" >{{ value }}</button></td>
+                <td><button class="subcatbtn" (click)="showFilteredProducts(category,value)" (mouseenter)="isHoveringSubcategory = true" (mouseleave)="startSubcategoryTimeout(category)" >{{ value }}</button></td>
               </tr>
             </tbody>
           </table>
@@ -77,89 +94,324 @@
 </div>
 
 
+<!--   ---------------------------------------------------------------------------------------------------------------------------   -->
 
 
+<!--  --------------------------------------------------------------------------------------------------------------------------------   -->
 
-
-
-
-
-
-
-
-<!--<div class="secondouter">
-  <div class="tablediv">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div *ngFor="let category of uniquecategories" class="nav-item">
-        <button (hover)="toggleDropdown(category)" class="btn btn-link" style="color: brown;">
-          {{ category }}
-        </button>
-      </div>
-    </nav>
-    <div class="bodydiv">
-      <div *ngFor="let category of uniquecategories">
-        <div *ngIf="dropdownvisible[category]">
-          <table>
-            <tbody>
-              <tr *ngFor="let value of extractFromObject(uniquesubcategoriesOfCategory, category)">
-                <td>{{ value }}</td>
-              </tr>
-            </tbody>
-          </table>
+<div *ngIf="showfilteredproducts" class="container py-5 custom-container">
+  <div class="header">
+    <h1 class="red-text"><strong>{{category}} {{subcategory}}</strong></h1>
+    
+    <button class="btn btn-outline-secondary ml-1 red-button" (click)="closeProducts()">
+      <i class="bi bi-x-circle"></i>
+    </button>
+  </div>
+ 
+   <div class="table-container">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th (click)="sortData1('category')">
+           <h4>Κατηγορία</h4> 
+            <button class="sort-btn" [class.asc]="sortOrder.category === 'asc'" [class.desc]="sortOrder.category === 'desc'">
+              shorting {{ sortSign('category') }}
+            </button>
+          </th>
+          <th (click)="sortData1('subcategory')">
+            <h4>Υποκατηγορία</h4>
+            <button class="sort-btn" [class.asc]="sortOrder.subcategory === 'asc'" [class.desc]="sortOrder.subcategory === 'desc'">
+              shorting {{ sortSign('subcategory') }}
+            </button>
+          </th>
+          <th (click)="sortData1('brand')">
+            <h4>Μάρκα</h4> 
+            <button class="sort-btn" [class.asc]="sortOrder.brand === 'asc'" [class.desc]="sortOrder.brand === 'desc'">
+              shorting {{ sortSign('brand') }}
+            </button>
+          </th>
+          <th (click)="sortData1('price')">
+           <h4>Τιμή</h4> 
+            <button class="sort-btn" [class.asc]="sortOrder.price === 'asc'" [class.desc]="sortOrder.price === 'desc'">
+              shorting  {{ sortSign('price') }}
+            </button>
+          </th>
+          <th (click)="sortData1('amount')">
+           <h4>Ποσότητα</h4> 
+            <button class="sort-btn" [class.asc]="sortOrder.amount === 'asc'" [class.desc]="sortOrder.amount === 'desc'">
+              shorting   {{ sortSign('amount') }}
+            </button>
+          </th>
+          <th><p>Αγορά</p> </th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container >
+          <tr *ngFor="let product of filteredProducts">
+            <td>{{ product.category }}</td>
+            <td>{{ product.subcategory }}</td>
+            <td>{{product.brand }}</td>
+            <td ><strong style="color: rgb(207, 12, 12);">{{ product.price }}</strong> <i style="color: rgb(0, 0, 0);" class="bi bi-currency-euro"></i> </td>
+            <td ><strong style="color: rgb(34, 13, 187);">{{ product.amount }}</strong> τμχ.</td>
+            <td><button *ngIf="product.amount != 0" class="btn btn-outline-primary button-icons" (click)="handleClick(product)" ><i class="bi bi-bag-plus-fill"></i></button></td>
+         
+            
+          </tr>
+        </ng-container>
+        </tbody>
+        </table>
         </div>
+        </div>
+        
+
+
+        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+
+        <div *ngIf="showproducts" class="container py-5 custom-container">
+          <div class="header">
+            <h1 class="red-text"><strong>Όλα τα προιόντα</strong></h1>
+            <div class="search-area">
+              <div class="input-with-button">
+                <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery" (input)="searchProducts()">
+                <button class="btn btn-black">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </div>
+            <button class="btn btn-outline-secondary ml-1 red-button" (click)="closeAllProducts()">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+          
+          <div class="table-container">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th (click)="sortData1('category')">
+                   <h4>Κατηγορία</h4> 
+                    <button class="sort-btn" [class.asc]="sortOrder.category === 'asc'" [class.desc]="sortOrder.category === 'desc'">
+                      shorting {{ sortSign('category') }}
+                    </button>
+                  </th>
+                  <th (click)="sortData1('subcategory')">
+                    <h4>Υποκατηγορία</h4>
+                    <button class="sort-btn" [class.asc]="sortOrder.subcategory === 'asc'" [class.desc]="sortOrder.subcategory === 'desc'">
+                      shorting {{ sortSign('subcategory') }}
+                    </button>
+                  </th>
+                  <th (click)="sortData1('brand')">
+                    <h4>Μάρκα</h4> 
+                    <button class="sort-btn" [class.asc]="sortOrder.brand === 'asc'" [class.desc]="sortOrder.brand === 'desc'">
+                      shorting {{ sortSign('brand') }}
+                    </button>
+                  </th>
+                  <th (click)="sortData1('price')">
+                   <h4>Τιμή</h4> 
+                    <button class="sort-btn" [class.asc]="sortOrder.price === 'asc'" [class.desc]="sortOrder.price === 'desc'">
+                      shorting  {{ sortSign('price') }}
+                    </button>
+                  </th>
+                  <th (click)="sortData1('amount')">
+                   <h4>Ποσότητα</h4> 
+                    <button class="sort-btn" [class.asc]="sortOrder.amount === 'asc'" [class.desc]="sortOrder.amount === 'desc'">
+                      shorting   {{ sortSign('amount') }}
+                    </button>
+                  </th>
+                  <th>Αγορά</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngIf="searchQuery === ''">
+                  <tr *ngFor="let product of products">
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.subcategory }}</td>
+                    <td>{{product.brand }}</td>
+                    <td ><strong style="color: rgb(207, 12, 12);">{{ product.price }}</strong> <i style="color: rgb(0, 0, 0);" class="bi bi-currency-euro"></i> </td>
+                    <td ><strong style="color: rgb(34, 13, 187);">{{ product.amount }}</strong> τμχ.</td>
+                    <td><button *ngIf="product.amount != 0" class="btn btn-outline-primary button-icons" (click)="handleClick(product)"><i class="bi bi-bag-plus-fill"></i></button></td>
+                  
+                  </tr>
+                </ng-container>
+                <ng-container *ngIf="searchQuery !== ''">
+                  <tr *ngFor="let product of filteredProducts1">
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.subcategory }}</td>
+                    <td>{{product.brand }}</td>
+                    <td ><strong style="color: rgb(207, 12, 12);">{{ product.price }}</strong> <i style="color: rgb(0, 0, 0);" class="bi bi-currency-euro"></i> </td>
+                    <td ><strong style="color: rgb(34, 13, 187);">{{ product.amount }}</strong> τμχ.</td>
+                    <td><button *ngIf="product.amount != 0" class="btn btn-outline-primary button-icons" (click)="handleClick(product)"><i class="bi bi-bag-plus-fill"></i></button></td>
+                    
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+          <p *ngIf="searchQuery1 !== '' && filteredProducts1.length === 0">No products found.</p>
+          <p *ngIf="searchQuery1 === '' && products.length === 0">No products found.</p>
+        </div>
+      
+
+
+        <!-- ----------------------------------- box html start -------------------------------------------------------- -->
+
+        <div *ngIf="tempboxvisible" class="mydiv">
+          <nav class="custom-navbar navbar-dark bg-dark sticky-top">
+            <div class="container-fluid">
+              <div class="d-flex justify-content-between align-items-center w-100">
+                <span class="navbar-text text-white">Καλάθι αγορών</span>
+                <span class="navbar-text text-white">
+                  <h3>{{ userData.firstname }} {{ userData.lastname }}</h3>
+                </span>
+                <a role="button" (click)="openpastboxes()" class="btn custom-btn-secondary" style="background-color:#d25561 ;">Παλαιότερες αγορές</a>
+                <a role="button" href="menu" class="btn custom-btn-secondary">πίσω</a>
+              </div>
+            </div>
+          </nav>
+        
+          <div  class="custom-container py-5">
+            <div class="row g-5 justify-content-center">
+              <div class="col-md-8">
+                <div class="custom-sticky-header">
+                  <h2><strong>Τρέχον καλάθι</strong></h2>
+                  <a *ngIf="tempbox" role="button" class="custom-buybtn" (click)="openMyAddresses()">Επιλέξτε διεύθηνση αποστολής</a>
+                  <a *ngIf="tempbox" role="button" class="custom-buybtn" style="background-color: red;" (click)="deletetempbox()">Διαγραφή καλαθιού</a>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="myDeliveryAddress">
+              <strong>Διεύθηνση αποστολής : {{ myDeliveryAddress.road }} {{ myDeliveryAddress.number }}, {{ myDeliveryAddress.city }}</strong>
+            </div>
+            <div >
+              <div *ngIf="tempbox.products && tempbox.products.length > 0">
+                <h3>ΠΡΟΙΟΝΤΑ: <strong style="color: rgb(63, 61, 61);">{{totalproducts}}</strong> </h3>
+                
+                <span style="color: rgb(170, 17, 155);"><strong>Συνολικό ποσό : {{totalprice}}<i class="bi bi-currency-euro"></i></strong></span>
+                <button role="button" (click)="checkout(tempbox.products)" class="custom-buybtn" [class.custom-disabled]="!myDeliveryAddress" [disabled]="!myDeliveryAddress">Αγορά</button>
+        
+                <div *ngIf="tempbox" class="custom-product-container">
+                  <div class="custom-product-item" *ngFor="let productBuy of tempbox.products; let i = index">
+                    <p style="color: rgb(170, 17, 155);"><strong>Προϊόν: {{ i + 1 }}</strong></p>
+                    <a role="button" class="custom-dltbtn" style="background-color: rgb(247, 247, 247); color:red" (click)="deleteproductfromtempbox(productBuy.product)"><i class="bi bi-x-octagon"></i></a>
+                   
+                    <div *ngIf="productBuy.product !== null && productBuy.product !== undefined" class="custom-nested-product-item">
+                      <p><strong> {{ productBuy.product.category }}</strong></p>
+                      <p><strong> {{ productBuy.product.subcategory }}</strong></p>
+                      <p><strong> {{ productBuy.product.brand }}</strong></p>
+                      <p>Τιμή: <strong>{{ productBuy.product.price }}<i class="bi bi-currency-euro"></i></strong></p>
+                      <p><strong>Διαθέσιμη ποσότητα : {{ productBuy.product.amount }}</strong></p>
+                    </div>
+        
+                    <div class="d-flex flex-column gap-2 custom-w-25">
+                      <div class="d-flex gap-2 align-items-center">
+                        <h3>Ποσότητα:</h3>
+                        <button class="btn custom-btn-primary btn-sm flex-grow-1" (click)="decrementTimes(productBuy)">-</button>
+                        <span>{{ productBuy.purchaseamount || 1 }}</span>
+                        <button class="btn custom-btn-primary btn-sm flex-grow-1" (click)="incrementTimes(productBuy)">+</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+            <div *ngIf="!tempbox.products || tempbox.products.length === 0" class="custom-empty-cart">
+              <p>ΠΡΟΣΘΕΣΤΕ ΠΡΟΙΟΝΤΑ</p>
+            </div>
+          </div>
+        </div>
+        
+
+  <!-- --------------------- final step before the purchase  ----------------------------------------------------------  -->  
+
+  <div class="finalstep-container" *ngIf="finalstepvisible">
+    <div class="finalstep">
+      <h3>Η παραγγελία σου στάλθηκε</h3>
+      <a role="button" class="checkoutbtn" (click)="finalcheckout()">OK</a>
+    </div>
+  </div>
+  
+  
+
+  <!--  ------------------------ user's addresses ---------------------------------------------------------------------------  -->
+
+  <div *ngIf="myAddressesVisible" class="d-flex justify-content-center align-items-center custom-overlay">
+    <div class="custom-address-container bg-green border rounded p-4 thick-border-out">
+      <div class="custom-header-like d-flex justify-content-between align-items-center">
+        <h3>Οι διευθήνσεις μου</h3>
+        <a role="button" (click)="closeMyAddresses()" class="close-button">
+          <i class="bi bi-x-circle"></i>
+        </a>
+      </div>
+      <div class="custom-address-box scrollable-address">
+        <div *ngFor="let address of userData.address" class="custom-address-box-item">
+          <p>
+            <strong>{{ address.road }} {{ address.number }}, {{ address.code }} - {{ address.area }}</strong>
+          </p>
+          <div>
+            <button class="btn custom-btn-outline-primary button-icons" (click)="selectAddress(address)" [ngClass]="{'clicked': address === myDeliveryAddress}">
+              <i class="bi bi-check2-square"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <a role="button" class="custom-buybtn" (click)="closeMyAddresses()" [class.custom-disabled]="!myDeliveryAddress" [attr.disabled]="!myDeliveryAddress ? true : null">
+        OK
+      </a>
+    </div>
+  </div>
+  
+
+
+   <!--  ------------------------ user's addresses end ---------------------------------------------------------------------------  -->
+
+   <!--  ------------------------- delete tempbox finalstep ----------------------------------------------------------------------  -->
+   <div class="finalstep-container" *ngIf="deletetempboxvisible">
+    <div class="finalstep">
+      <h3>Το τρέχον καλάθι διαγράφτηκε με επιτυχία!!</h3>
+      <a role="button" class="checkoutbtn" (click)="finalcheckout()">OK</a>
+    </div>
+  </div>
+  <!--  ------------------------- delete tempbox finalstep end ----------------------------------------------------------------------  -->
+
+
+  <!-- --------------------------------------------- past purchases --------------------------------------------------------------------- -->
+
+  <div class="past-container" *ngIf="pastboxesvisible">
+    <h2>Οι Παλαιότερες αγορές σας <button class="close-icon"><i class="bi bi-x-octagon" style="color: red;" (click)="closepastboxes()"></i></button></h2>
+    <div class="scrollable">
+      <div *ngIf="pastboxesvisible" class="past-purchase-list">
+        <div *ngFor="let box of mypastBoxes" class="past-purchase-box">
+          <p><strong></strong> <span type="button" class="timestamp" (click)="opeandetailedpastbox(box)" >{{ box.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}</span></p>
+          
+        </div>
+      </div>
+      <div *ngIf="!pastboxesvisible" class="no-purchases-message">Παρακαλώ πραγματοποιείστε την πρώτη σας αγορά</div>
+    </div>
+  </div>
+  
+   <!-- --------------------------------------------- past purchases end ------------------------------------------------------------------- -->
+
+   <!--  -------------------------------------------- past detailed ------------------------------------------------------------------------------  -->
+   <div class="detailed" *ngIf="detailedpastboxvisible">
+    <h2>Λεπτομέριες <button class="close-icon"><i class="bi bi-x-octagon" style="color: red;" (click)="closedetailedpastbox()"></i></button></h2>
+    <div class="purchase-details">
+      <p><strong>Ημερομηνία αγοράς:</strong> {{ mydetailedpastbox.timestamp  | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+      <p>Συνολικό ποσό: {{this.getTotalPrice()}} <i class="bi bi-currency-euro"></i></p>
+      <h3>ΠΡΟΙΟΝΤΑ:</h3>
+      <div *ngFor="let product of mydetailedpastbox.products" class="detailed-product-item">
+       
+        <p><strong></strong> {{ product.product.category }}</p>
+        <p><strong></strong> {{ product.product.subcategory }}</p>
+        <p><strong></strong> {{ product.product.brand }}</p>
+        <p><strong>Τιμή :</strong> {{ product.product.price }}</p>
+        <p><strong>Ποσότητα:</strong> {{ product.purchaseamount }}</p>
       </div>
     </div>
   </div>
-</div>-->
+  
+  
 
 
-
-
-
-
-
-
-
-<!--<div class="secondouter">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <ul class="navbar-nav mr-auto">
-      <li *ngFor="let category of uniquecategories" class="nav-item dropdown"
-          (mouseenter)="toggleDropdown(category)" 
-          (mouseleave)="toggleDropdown(category)">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMan" role="button" aria-haspopup="true" aria-expanded="false">
-          {{ category }}
-        </a>
-        <div *ngIf="showDropdown[category]" class="dropdown-menu" aria-labelledby="navbarDropdownMan">
-          <a *ngFor="let value of extractFromObject(uniquesubcategoriesOfCategory, category)"
-             class="dropdown-item" href="#">
-            {{ value }}
-          </a>
-        </div>
-      </li>
-    </ul>
-  </nav>
-</div>-->
-
-
-<!--<div class="secondouter">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <ul class="navbar-nav mr-auto">
-      <li *ngFor="let category of uniquecategories" class="nav-item dropdown" >
-        <a  class="nav-link dropdown-toggle" (hover)="showdropdown" id="navbarDropdownMan" role="button" aria-haspopup="true"
-          aria-expanded="false">
-          {{ category }}
-        </a>
-        <div *ngIf="dropdownvisible">
-        <div  *ngFor="let value of separateStrings(extractFromObject(uniquesubcategoriesOfCategory,category))" class="dropdown-menu" >
-          <a  class="dropdown-item" href="#">{{separateStrings(extractFromObject(uniquesubcategoriesOfCategory,category))}}</a>
-        </div> 
-        </div>
-       
-      </li>
-     </ul>
-
-</nav>
-</div>-->
-
-
-
+      <!--  -------------------------------------------- past detailed end ------------------------------------------------------------------------------  -->

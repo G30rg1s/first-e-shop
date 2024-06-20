@@ -2,7 +2,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Component, NgModule, inject, OnInit, OnDestroy } from '@angular/core';
 import { Menu, menuSections } from 'src/app/shared/interfaces/menu';
 import { UserService } from 'src/app/shared/services/user.service';
-import { UserData, AdminReadUsers } from 'src/app/shared/interfaces/user';
+import { UserData, AdminReadUsers, Address, UserNum } from 'src/app/shared/interfaces/user';
 import { Subscription, catchError, throwError } from 'rxjs';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { sortBy } from 'lodash-es';
@@ -10,6 +10,9 @@ import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms'
 import { ProductService } from 'src/app/shared/services/product.service';
 import { Product } from 'src/app/shared/interfaces/product';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Box, ProductBuy } from 'src/app/shared/interfaces/box';
+import { NumService } from 'src/app/shared/services/num.service';
+import { TempboxService } from 'src/app/shared/services/tempbox.service';
 
 
 
@@ -18,7 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',
   animations: [
@@ -31,10 +34,28 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 
 export class MenuComponent implements OnInit {
+  totalprice : number;
+  totalproducts : number;
+  isClicked: boolean = false;
+  myAddressesVisible : boolean = false;
+  myDeliveryAddress : Address;
+  finalstepvisible: boolean = false;  
+  tempboxvisible: boolean = false;  
+  tempbox : Box;
+  selectBoxProduct : any;
+  num1=0;
+  num : number;
+  boxstring : string;
+  tempBoxSubscription: Subscription | undefined;
   userData: UserData | undefined;
+  userRole: string;
+  userUsername: string;
   userDetailsSubscription: Subscription | undefined;
   productForm: FormGroup;
+  products1: Product[]=[];
   products: Product[]=[];
+  category : string;
+  subcategory : string;
   categories: string[];
   uniquecategories: string[];
   subcategories: string[];
@@ -51,17 +72,215 @@ export class MenuComponent implements OnInit {
   isCollapsed = true;
   dropdownvisible: { [key: string]: boolean } = {};
   isMouseOverButton: boolean = false; 
+  filteredProducts: Product[] = [];
+  filteredProducts1: Product[] = [];
+  navbarvisible: boolean = true;
+  menunavbarvisible: boolean = true;
+  myproducrbuy : ProductBuy;
+  myproductsbuy : ProductBuy[];
+  mypurchaseamount : number;
+  deletetempboxvisible : boolean = false;
+  pastboxesvisible:boolean = false;
+  pastBoxesSubscription: Subscription | undefined;
+  mypastBoxes: Box[];
+  mydetailedpastbox: Box;
+  detailedpastboxvisible: boolean = false;
+  curentuser:UserNum;
+
+
+  
+  selectedFilteredCategory: string = '';
+  selectedFilteredSubcategory: string = '';
+  
+  searchQuery1: string = '';
+  searchQuery: string = '';
+  showfilteredproducts:boolean = false
+  
+  
+
+ 
     
     
   
-    constructor(private formBuilder: FormBuilder, private userService: UserService, private productService:ProductService) {}
+    constructor(private tempboxService: TempboxService,private numService: NumService,private formBuilder: FormBuilder, private userService: UserService, private productService:ProductService) {
+      
+      this.num = this.numService.getNum();
+      this.boxstring = this.tempboxService.getBoxKey();
+    }
   
     
     
-    showProducts: boolean;
+    showproducts: boolean;
+
+
+    showAllproducts() {
+      this.getAllProducts();
+      this.showfilteredproducts = false; 
+      this.showproducts=true;
+    }
+  
+    closeProducts(){
+    this.showfilteredproducts=false;
+    }
+
+    closeAllProducts(){
+      this.showproducts = false;
+    }
+
+    showFilteredProducts(category: string, subcategory: string): void {
+      this.showproducts=false;
+      this.showfilteredproducts = true;
+      this.filterAndSearchProducts(category, subcategory, this.searchQuery1);
+    }
+
+    opentempbox(tempBox:any){
+      this.tempboxvisible = true;
+      this.showproducts = false;
+      this.showfilteredproducts = false;
+      this.navbarvisible = false;
+      this.menunavbarvisible = false;
+      this.totalPrice(tempBox);
+      this.totalProduct(tempBox);
+    }
+
+    openpastboxes(){
+      this.tempboxvisible = false;
+      this.pastboxesvisible = true;
+      this.getPastBoxes();
+    }
+
+    closepastboxes(){
+      this.tempboxvisible = true;
+      this.pastboxesvisible = false;
+    }
+
+    opeandetailedpastbox(Box: any){
+      this.getdetailedPastBox(Box);
+      this.pastboxesvisible = false;
+      this.detailedpastboxvisible = true;
+    }
+
+    closedetailedpastbox(){
+      this.pastboxesvisible = true;
+      this.detailedpastboxvisible = false;
+    }
+
+    openMyAddresses(){
+      this,this.myAddressesVisible = true;
+      this.tempboxvisible = false;
+     
+   }
+
+   closeMyAddresses(){
+    this.myAddressesVisible = false;
+    this.tempboxvisible = true;
+   }
+
+   opendeletetempbox(){
+    this.deletetempboxvisible=true
+    this.tempboxvisible = false;
+
+   }
+
+    openfinalstep(){
+      this.tempboxvisible = false;
+      this.finalstepvisible=true;
+    }
+
+    finalcheckout(){
+      this.numService.setNum(0);
+      this.num= this.numService.getNum();
+      this.tempboxService.setBoxKey('');
+      this.boxstring = this.tempboxService.getBoxKey();
+      window.location.reload();
+    }
+  
+    filterAndSearchProducts(category: string, subcategory: string, query: string): void {
+      query = query.trim().toLowerCase();
+      
+     
+      let filtered = this.products.filter(product => 
+        product.category === category && product.subcategory === subcategory
+      );
+  
+      
+      if (query !== '') {
+        filtered = filtered.filter(product =>
+          product.category.toLowerCase().includes(query) ||
+          product.subcategory.toLowerCase().includes(query) ||
+          product.brand.toLowerCase().includes(query) ||
+          (product.price && product.price.toString().includes(query)) ||
+          (product.amount && product.amount.toString().includes(query))
+        );
+      }
+      this.category = category;
+      this.subcategory = subcategory;
+      this.filteredProducts = filtered;
+      console.log('Filtered products:', this.filteredProducts);
+    }
+
+
+    searchProducts() {
+      const query = this.searchQuery.trim().toLowerCase();
+      console.log('Search query:', query); 
+      if (query === '') {
+        
+        this.filteredProducts1 = this.products.slice(); 
+      } else {
+        
+        this.filteredProducts1 = this.products.filter(product =>
+          product.category.toLowerCase().includes(query) ||
+          product.subcategory.toLowerCase().includes(query) ||
+          product.brand.toLowerCase().includes(query) ||
+          (product.price && product.price.toString().includes(query)) ||
+          (product.amount && product.amount.toString().includes(query)) 
+        );
+      }
+    
+      console.log('Filtered products:', this.filteredProducts); 
+    }
+    
     
   
    ngOnInit(): void {
+
+    this.detailedpastboxvisible= false;
+    
+    console.log('num = ', this.num);
+
+    const token = localStorage.getItem('access_token');
+    if (token) {
+     
+      this.userDetailsSubscription = this.userService.getMyDetails(token).subscribe(
+        (userData: UserData) => {
+          this.userData = userData;
+          console.log('User details:', this.userData);
+        },
+        (error) => {
+          console.error('Error fetching user details:', error);
+        }
+      );
+      this.userRole = this.userService.getUserRoles();
+      this.userUsername = this.userService.getUserusername();
+      
+    
+
+      this.tempBoxSubscription = this.productService.tempBox(this.userUsername).subscribe(
+        (tempBox: Box) => {
+          this.tempbox = tempBox;
+          console.log('tempbox:', this.tempbox);
+          this.myproductsbuy=this.tempbox.products;
+          this.mypurchaseamount = this.myproducrbuy.purchaseamount;
+          
+
+        });
+      
+    } else {
+      console.error('JWT token not found in local storage');
+    }
+  
+
+    this.showproducts=false;
         
     this.productForm = this.formBuilder.group({
         key: [''],
@@ -74,9 +293,8 @@ export class MenuComponent implements OnInit {
   
      this.getAllProducts();
     }
-    
-  
-    
+
+
     getAllProducts(): void {
       this.adminReadProductsSubscription = this.productService.getProducts()
         .pipe(
@@ -99,7 +317,7 @@ export class MenuComponent implements OnInit {
             ; 
   
             this.uniquecategories = this.getUniqueValues(this.categories);
-            //console.log(this.uniquecategories)
+            
             ; 
             (productsuniquecategory: string[])=>{this.uniquecategories = productsuniquecategory}
   
@@ -164,21 +382,8 @@ export class MenuComponent implements OnInit {
       return uniqueValues;
     }
 
-    separateStrings(strings: string[]): string[] {
-      const separatedStrings: string[] = [];
-    
-      strings.forEach(str => {
-        separatedStrings.push(str);
-      });
-    
-      return separatedStrings;
-    }
 
-    /**showdropdown(){
-      this.dropdownvisible=true
-    }*/
-
-      toggleDropdown(category: string) {
+     toggleDropdown(category: string) {
         this.dropdownvisible[category] = !this.dropdownvisible[category];
       }
       toggleDropdown2(category: string) {
@@ -207,7 +412,7 @@ export class MenuComponent implements OnInit {
       startSubcategoryTimeout(category: string) {
         this.subcategoryTimeout[category] = setTimeout(() => {
           this.isHoveringSubcategory[category] = false;
-        }, 500); // Adjust the timeout duration as needed
+        }, 500);
       }
       
       clearTimeout() {
@@ -223,10 +428,344 @@ export class MenuComponent implements OnInit {
     this.isCollapsed = !this.isCollapsed;
   }
 
+  sortOrder = {
+    category: 'none',
+    subcategory: 'none',
+    brand: 'none',
+    price: 'none',
+    amount: 'none'
+  };
+
+
+  sortData1(sortKey: string) {
+    if (this.sortOrder[sortKey] === 'asc') {
+      this.sortOrder[sortKey] = 'desc';
+      this.products = sortBy(this.products, [sortKey]).reverse(); 
+    } else {
+      this.sortOrder[sortKey] = 'asc';
+      this.products = sortBy(this.products, [sortKey]); 
+    }
+
+    for (const key in this.sortOrder) {
+      if (key !== sortKey) {
+        this.sortOrder[key] = 'none';
+      }
+    }
+  }
+  
+
+  sortSign(sortKey: string): string {
+    if (this.sortOrder[sortKey] === 'asc') {
+      return '↑';
+    } else if (this.sortOrder[sortKey] === 'desc') {
+      return '↓';
+    } else {
+      return '';
+    }
+  }
+
+
+  getRole(rolesString: string): string {
+    switch (rolesString) {
+      case 'truefalsefalse':
+        return 'user';
+      case 'truetruefalse':
+        return 'admin';
+      case 'truetruetrue':
+        return 'boss';
+      default:
+        return 'unknown';
+    }
+  }
+
+
+ 
+ 
+ 
+  createbox(product:any) {
+    const boxkey = Date.now().toString();
+    const username = this.userUsername; 
+    const boxproductkey = product.key;
+
+    this.productService.registerbox(boxkey, username, boxproductkey).subscribe({
+      next: (response) => {
+        console.log('Product updated successfully:', response);
+        
+        
+
+        this.numService.setNum(1);
+        this.num = this.numService.getNum();
+        this.tempboxService.setBoxKey(boxkey); 
+
+      
+        
+      },
+      error: (error) => {
+        console.error('Error updating product:', error);
+      }
+    });
+}
+
+   addmore(product:any){
+    const boxkey = this.tempboxService.getBoxKey();
+    const username = this.userUsername; 
+    const boxproductkey = product.key;
+    console.log('',boxkey,username,boxproductkey);
+    this.productService.addmoretobox(boxkey, username, product).subscribe({
+      next: (response) => {
+        console.log('Product updated successfully:', response);
+        console.log('num = ', this.num)
+      },
+      error: (error) => {
+        console.error('Error updating product:', error);
+      }
+    });
+    
+  }
+
+   handleClick(product: any) {
+    if (this.num === 0) {
+      this.createbox(product);
+    } else {
+      this.addmore(product);
+    }
+  }
+
+
+  getTempBox(){
+    let username = this.userUsername;
+    this.productService.tempBox(username).subscribe({
+      next: (response) => {
+        console.log('Product found successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error updating product:', error);
+      }
+    });
+  }
+
+  getdetailedPastBox(Box: any){
+    let onepastbox = Box;
+    let username = this.userUsername;
+    let boxkey = Box.boxkey;
+    console.log('pastkey', boxkey);
+    this.productService.detailedPastBox(username,boxkey).subscribe({
+      next: (response) => {
+        console.log('Product found successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error updating product:', error);
+      }
+    });
+    this.mydetailedpastbox = onepastbox;
+    
+  }
+
+
+  getPastBoxes(): void {
+    const username = this.userUsername;
+    if (username) {
+      this.pastBoxesSubscription = this.productService.pastBoxes(username).subscribe({
+        next: (response) => {
+          console.log('Product found successfully:', response);
+          this.mypastBoxes = response.purchases || [];
+          this.mypastBoxes.forEach(box => {
+            console.log('box:', box);
+            this.myproductsbuy = box.products;
+            this.mypurchaseamount = this.myproductsbuy.reduce((total, product) => total + product.purchaseamount, 0);
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching past boxes:', error);
+        }
+      });
+    } else {
+      console.error('Username is not defined');
+    }
+  }
+
+   
+
+
+  selectAddress(address: any) {
+    this.myDeliveryAddress = address;
+    this.isClicked = false; 
+    this.userData.address.forEach(addr => {
+      if (addr === address) {
+        this.isClicked = true; 
+      }
+    });
+  }
+
+  deletetempbox(){
+    const boxkey = this.tempboxService.getBoxKey();
+    const username = this.userUsername; 
+    
+    console.log('',boxkey,username);
+    this.productService.Deletetempbox(boxkey, username).subscribe({
+      next: (response) => {
+        console.log('Product updated successfully:', response);
+        console.log('num = ', this.num)
+      },
+     
+      error: (error) => {
+        console.error('Error updating product:', error);
+      }
+      
+    });
+    this.opendeletetempbox();
+  }
+
+
+  deleteproductfromtempbox(product : any){
+    const boxkey = this.tempboxService.getBoxKey();
+    const username = this.userUsername; 
+    const boxproductkey = product.key;
+    console.log('',boxkey,username,product);
+    this.productService.DeleteProductFromTempbox(boxkey, username, boxproductkey).subscribe({
+      next: (response) => {
+        console.log('Product updated successfully:', response);
+        console.log('num = ', this.num)
+      },
+      error: (error) => {
+        console.error('Error updating product:', error);
+      }
+      
+    });
+    
+
+  }
+
+  
+
+  
+  checkout(products: any[]){
+    const boxkey = this.tempboxService.getBoxKey();
+    const deliveryaddress = this.myDeliveryAddress;
+    console.log('boxkey', boxkey);
+    console.log('purchaseprod', products );
+    console.log('address', deliveryaddress);
+
+    const username = this.userUsername;
+    this.productService.checkoutservice(boxkey, username, deliveryaddress, products).subscribe({
+      next: (response) => {
+        console.log('Product updated successfully:', response);
+        console.log('num = ', this.num)
+      },
+      error: (error) => {
+        console.error('Error updating product:', error);
+      }
+    });
+   this.openfinalstep();
+  }
+
+
+
+
+
+  /**-----------------------------------------event emiter start---------------------------------*/ 
+  times: number = 1;
+
+  incrementTimes(productBuy: any) {
+    if (!productBuy.purchaseamount) {
+      productBuy.purchaseamount = 1;
+    }
+    if (productBuy.purchaseamount < productBuy.product.amount) {
+      productBuy.purchaseamount++;
+    } else {
+      console.log('Cannot add more, maximum quantity reached.');
+    }
+    this.totalPrice(productBuy);
+    this.totalProduct(productBuy);
+  }
+  
+  decrementTimes(productBuy: any) {
+    if (productBuy.purchaseamount > 1) {
+      productBuy.purchaseamount--;
+    }
+
+    this.totalPrice(productBuy);
+    this.totalProduct(productBuy);
+  }
+
+
+  totalPrice(productBuy : any) {
+    this.totalprice = 0; 
+    
+    for (let productBuy of this.tempbox.products) {
+      
+      let subtotal = productBuy.product.price * (productBuy.purchaseamount || 1);
+      this.totalprice += subtotal;
+    }
+  }
+
+
+  totalProduct(productBuy : any) {
+    this.totalproducts = 0; 
+    
+    for (let productBuy of this.tempbox.products) {
+      let subtotal = productBuy.purchaseamount || 0;
+      this.totalproducts += subtotal;
+  }
+}
+
+  
+
+ 
+
+  
+  /**-----------------------------------------event emiter end---------------------------------*/ 
+
+  /**-------------- format date ------------------------------------------------------------------------- */
+
+  formatDate(timestamp: Date | string | { $date: number }): string {
+    if (!timestamp) {
+      return ''; 
+    }
+  
+    let date: Date;
+    if (typeof timestamp === 'string') {
+      date = new Date(timestamp);
+    } else if ('$date' in timestamp) {
+      date = new Date(timestamp.$date);
+    } else {
+      date = timestamp;
+    }
+  
+    if (isNaN(date.getTime())) {
+      return ''; 
+    }
+
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZone: 'Europe/Athens' 
+    };
+    return date.toLocaleString('en-US', options);
+  }
+  
+
+  /**-------------- formar date end ---------------------------------------------------------------------- */
+
+  getTotalPrice() {
+    return this.mydetailedpastbox.products.reduce((total, product) => {
+      return total + (product.purchaseamount * product.product.price);
+    }, 0);
+  }
+
+
  
 
 logout() {
   this.userService.logoutUser();
+  //this.numService.setNum(0);
+  //this.tempboxService.setBoxKey('');
+  //localStorage.clear();
+  
 }
 
   }

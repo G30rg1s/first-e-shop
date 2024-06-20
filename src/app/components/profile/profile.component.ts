@@ -14,10 +14,7 @@ import { UserService } from 'src/app/shared/services/user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-   simpleAddress : MySimpleAddress[]
-
-
-
+  simpleAddress : MySimpleAddress[]
   userData: UserData;
   userDetailsSubscription: Subscription;
   selectedAddress: any; 

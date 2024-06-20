@@ -1,1 +1,206 @@
-<p>boss-page works!</p>
+<div class="mydiv">
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <span class="navbar-text text-white">
+            <h2><strong>BOSS</strong></h2>
+          </span>
+          <span class="navbar-text text-white">
+            <h3>{{ userData?.firstname }} {{ userData?.lastname }}</h3>
+          </span>
+          <span role="button" class="btn btn-outline-secondary ml-1" (click)="logout()">Logout</span>
+        </div>
+      </div>
+    </nav>
+
+    <!--  --------------------------------------------------------------------------------------------------------------------------------------  -->
+
+    <div class="newdiv" *ngIf="showButtons">
+      <div class="button-wrapper">
+        <div class="button-container" >
+          <div class="buttonstitle"><h1>Προνόμια BOSS</h1></div>
+          <button class="btn2 btn-primary2" (click)="showAllUsers()">Όλοι οι χρήστες</button>
+          <button class="btn2 btn-primary2" (click)="showlogs()" >LOGS</button>
+          <a href="admin-page"><button class="btn2 btn-primary2">Μετάβαση στη σελίδα admin ...</button></a>
+          <a href="menu"><button class="btn2 btn-primary2">Μετάβαση στο menu ...</button></a>
+            </div>
+      </div>
+      </div>
+    
+      <div *ngIf="showUsers" class="container py-5 custom-container">
+        <div class="header">
+          <h1 class="red-text" style="color: rgb(255, 0, 0);"><strong>ΠΡΟΝΟΜΙΑ ΧΡΗΣΤΩΝ</strong></h1>
+          <div class="search-area">
+            <div class="input-with-button">
+              <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery" (input)="searchUsers()">
+              <button class="btn btn-black">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-outline-secondary ml-1 red-button" (click)="closeUsers()">
+            <i class="bi bi-x-circle"></i>
+          </button>
+        </div>
+        
+        <div class="table-container">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th (click)="sortData('firstname')">
+                 <h4>Όνομα</h4> 
+                  <button class="sort-btn" [class.asc]="sortOrder.firstname === 'asc'" [class.desc]="sortOrder.firstname === 'desc'">
+                    shorting {{ sortSign('firstname') }}
+                  </button>
+                </th>
+                <th (click)="sortData('lastname')">
+                  <h4>Επίθετο</h4>
+                  <button class="sort-btn" [class.asc]="sortOrder.lastname === 'asc'" [class.desc]="sortOrder.lastname === 'desc'">
+                    shorting {{ sortSign('lastname') }}
+                  </button>
+                </th>
+                <th (click)="sortData('email')">
+                  <h4>Email</h4> 
+                  <button class="sort-btn" [class.asc]="sortOrder.email === 'asc'" [class.desc]="sortOrder.email === 'desc'">
+                    shorting {{ sortSign('email') }}
+                  </button>
+                </th>
+                <th (click)="sortData('phonenumber')">
+                 <h4>Τηλέφωνο</h4> 
+                  <button class="sort-btn" [class.asc]="sortOrder.phonenumber === 'asc'" [class.desc]="sortOrder.phonenumber === 'desc'">
+                    shorting  {{ sortSign('phonenumber') }}
+                  </button>
+                </th>
+                <th (click)="sortData('roles_string')">
+                 <h4>Προνόμιο</h4> 
+                  <button class="sort-btn" [class.asc]="sortOrder.roles_string === 'asc'" [class.desc]="sortOrder.roles_string === 'desc'">
+                    shorting   {{ sortSign('roles_string') }}
+                  </button>
+                </th>
+                <th>Διαχείριση προνομίων</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="searchQuery === ''">
+                <tr *ngFor="let user of users">
+                  <td>{{ user.firstname }}</td>
+                  <td>{{ user.lastname }}</td>
+                 <td><h5>{{ user.email }}</h5> </td>
+                  <td>{{ user.phonenumber }}</td>
+                  <td style="color: rgb(255, 0, 0);">{{ getRole(user.roles_string) }}</td>
+                  <td><button class="btn btn-outline-primary button-icons" (click)="openUpdate(user)"><i class="bi bi-pencil-square"></i></button></td>
+                </tr>
+              </ng-container>
+              <ng-container *ngIf="searchQuery !== ''">
+                <tr *ngFor="let user of filteredUsers">
+                  <td>{{ user.firstname }}</td>
+                  <td>{{ user.lastname }}</td>
+                  <td><h4>{{ user.email }}</h4> </td>
+                  <td>{{ user.phonenumber }}</td>
+                  <td style="color: rgb(255, 0, 0);;">{{ getRole(user.roles_string) }}</td>
+                  <td><button class="btn btn-outline-primary button-icons" (click)="openUpdate(user)" ><i class="bi bi-pencil-square"></i></button></td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <p *ngIf="searchQuery !== '' && filteredUsers.length === 0">No users found.</p>
+        <p *ngIf="searchQuery === '' && users.length === 0">No users found.</p>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    
+      <!-- --------------------------------------------------------------------------------------------------------------  -->
+
+      <div class="form-container1" *ngIf="selectUpdateUser">
+        <form [formGroup]="updateUserForm" >
+          <div>
+            <h3>
+              ΕΠΕΞΕΡΓΑΣΙΑ ΡΟΛΩΝ {{selectUpdateUser.username}}
+              <button class="myButton" type="button" (click)="closeUpdate(selectUpdateUser)"><i class="bi bi-x-circle"></i></button>
+            </h3>
+          </div>
+          <div class="form-group1">
+            <label for="firstname">Όνομα: {{selectUpdateUser.firstname}}</label>
+          </div>
+          <div class="form-group1">
+            <label for="lastname">Επίθετο: {{selectUpdateUser.lastname}}</label>
+          </div>
+          <div class="form-group1">
+            <label for="email">email: {{selectUpdateUser.email}}</label>
+          </div>
+          <div class="form-group1">
+            <label for="phonenumber">Τηλέφωνο: {{selectUpdateUser.phonenumber}}</label>
+          </div>
+          <div class="form-group1">
+            <label for="role">Ρόλος</label>
+            <input type="text" formControlName="role" id="role" class="form-control1" [value]="getRole(selectUpdateUser.roles_string)" placeholder="{{getRole(selectUpdateUser.roles_string)}}" required>
+          </div>
+          
+          <button type="button" class="btn btn-primary" (click)="updaterole(users)">Υποβολή</button>
+        </form>
+      </div>
+    
+      <!--  -------------------------------------------------------------------------------------------------------------------------  -->
+    
+      <div class="log" *ngIf="logsvisible">
+        <button class="logbtn" (click)="closelogs()">Close Logs</button>
+        <div>
+            <h1><strong>LOGS</strong></h1>
+            <div class="search">
+                <input type="text" placeholder="Search logs..." [(ngModel)]="logQuery" (input)="searchlogs()">
+            </div>
+            <div class="log-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>User</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                            <th>Product Key</th>
+                            <th>Category</th>
+                            <th>Subcategory</th>
+                            <th>Brand</th>
+                            <th>Price</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="logQuery === ''" >
+                            <tr *ngFor="let log of logs">
+                                <td>{{ formatDate(log.timestamp) | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                                <td>{{ log.user }}</td>
+                                <td>{{ log.name }}</td>
+                                <td>{{ log.action }}</td>
+                                <td>{{ log.productkey }}</td>
+                                <td>{{ log.category }}</td>
+                                <td>{{ log.subcategory }}</td>
+                                <td>{{ log.brand }}</td>
+                                <td>{{ log.price }}</td>
+                                <td>{{ log.amount }}</td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="logQuery !== ''">
+                            <tr *ngFor="let log of filteredlogs">
+                                <td>{{ formatDate(log.timestamp) | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                                <td>{{ log.user }}</td>
+                                <td>{{ log.name }}</td>
+                                <td>{{ log.action }}</td>
+                                <td>{{ log.productkey }}</td>
+                                <td>{{ log.category }}</td>
+                                <td>{{ log.subcategory }}</td>
+                                <td>{{ log.brand }}</td>
+                                <td>{{ log.price }}</td>
+                                <td>{{ log.amount }}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
