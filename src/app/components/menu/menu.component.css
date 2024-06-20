@@ -379,5 +379,567 @@
   }
 }
 
+ /**  -----------------------  purchase btn  -------------------------------------------------------------------------------------  */
+
+ .buybtn {
+  display: inline-block;
+  padding: 10px 20px; 
+  border-radius: 10px; 
+  background-color: rgb(15, 135, 200); 
+  color: white; 
+  text-decoration: none; 
+  transition: transform 0.3s ease; 
+}
+
+.buybtn:hover {
+  transform: scale(1.2); 
+}
+
+/**  -----------------------  purchase btn end  ----------------------------------------------------------------------------------  */
+
+/**  -----------------  my addresses ------------------------------------------------------------------------------    */
+.bg-green {
+  background-color: #8593b3; 
+  color: black; 
+}
+
+.thick-border-out {
+  box-shadow: 0 0 0 3px black;
+}
+
+.header-like {
+  background-color: #f8f9fa; 
+  font-weight: bold;
+  padding: 8px;
+  margin-bottom: 8px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-color: aqua;
+  color: black; 
+  text-align: center; 
+}
+
+.header-like h3 {
+  background-color: rgb(61, 59, 59); 
+  color: white; 
+  padding: 10px; 
+  margin: -8px; 
+  border-radius: 10px; 
+}
+
+.address-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable-address {
+  max-height: 300px; 
+  overflow-y: auto;
+  width: calc(100% - 40px); 
+  padding: 10px; 
+  border: 1px solid #080808; 
+  border-radius: 5px; 
+}
+
+.address-box-item {
+  border-radius: 10px;
+  box-shadow: 0 0 0 0.9px black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: rgb(250, 248, 248); 
+}
+
+.button-icons {
+  font-size: 1.2em;
+  transition: all 0.3s ease;
+}
+
+
+
+.button-icons.clicked {
+  background-color: red; 
+  color: white; 
+  transform: scale(1.2); 
+}
+
+
+/**  -----------------  my addresses end ------------------------------------------------------------------------------    */
+
+/** -------------------------- finalstep ok --------------------------------------------------------------------------------- */
+
+.finalstep-container {
+  position: fixed; /* Ensures the container covers the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Optional: adds a semi-transparent background */
+}
+
+.finalstep {
+  background-color: #ffffff; /* White background */
+  padding: 20px; /* Padding inside the box */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds a shadow for depth */
+  text-align: center; /* Center the text inside the box */
+}
+
+/** -------------------------- finalstep ok end --------------------------------------------------------------------------------- */
+
+/** ------------------------------ buybtn ---------------------------------------------------------------------------------------- */
+.buybtn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: rgb(248, 0, 0);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.buybtn:hover {
+  background-color: #0e7988;
+}
+
+.buybtn.disabled {
+  background-color: #cccccc; 
+  color: #666666; 
+  cursor: not-allowed; 
+  pointer-events: none; 
+}
+
+/** ------------------------------ buybtn end ---------------------------------------------------------------------------------------- */
+
+
+/* General styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* Navbar styling */
+.custom-navbar {
+  padding: 0.75rem 1rem;
+}
+
+.navbar-text h3 {
+  margin: 0;
+}
+
+.custom-btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  text-decoration: none;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.custom-btn-secondary:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+/* Container styling */
+.custom-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Sticky header styling */
+.custom-sticky-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.custom-sticky-header h2 {
+  margin: 0;
+}
+
+.custom-buybtn {
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: rgb(56, 158, 225);
+  text-decoration: none;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.custom-buybtn:hover {
+  background-color: rgb(40, 113, 161);
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+.custom-buybtn.custom-disabled {
+  background-color: #dcdcdc;
+  cursor: not-allowed;
+}
+
+.buybtn.disabled {
+  background-color: #cccccc; 
+  color: #666666; 
+  cursor: not-allowed; 
+  pointer-events: none; 
+}
+
+.custom-product-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.custom-product-item {
+  background-color: #f1f1f1;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.custom-product-item p {
+  margin: 0;
+}
+
+.custom-nested-product-item {
+  background-color: #e9ecef;
+  padding: 0.75rem;
+  border-radius: 4px;
+}
+
+.custom-nested-product-item p {
+  margin: 0.25rem 0;
+}
+
+/* Quantity controls styling */
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.custom-w-25 {
+  width: 25%;
+}
+
+.btn {
+  text-align: center;
+}
+
+.custom-btn-primary {
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.custom-btn-primary:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+
+.custom-empty-cart {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #6c757d;
+}
+
+.custom-empty-cart p {
+  margin: 0;
+}
+
+
+/**------------------ choose address ---------------------------------------------------------------------------------------------------*/
+
+
+.custom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+
+.custom-address-container {
+  background-color: #e8f5e9;
+  border-color: #4caf50;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+.custom-header-like {
+  margin-bottom: 1rem;
+}
+
+.custom-header-like h3 {
+  margin: 0;
+}
+
+.close-button {
+  color: #dc3545;
+  font-size: 1.5rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.close-button:hover {
+  color: #c82333;
+  transform: scale(1.1);
+}
+
+
+.custom-address-box {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.custom-address-box-item {
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-address-box-item p {
+  margin: 0;
+}
+
+
+.custom-btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+  background-color: transparent;
+  transition: transform 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.custom-btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.custom-buybtn {
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: rgb(56, 158, 225);
+  text-decoration: none;
+  transition: transform 0.3s, background-color 0.3s;
+  margin-top: 1rem;
+  display: block;
+}
+
+.custom-buybtn:hover {
+  background-color: rgb(40, 113, 161);
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+.custom-buybtn.custom-disabled {
+  background-color: #dcdcdc;
+  cursor: not-allowed;
+}
+
+
+.scrollable-address::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-address::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.scrollable-address::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+
+/**----------------------------------------------------------------------------------------------------------------------*/
+
+.custom-dltbtn {
+  
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/** ------------------------------------- past purchases timestamp --------------------------------------------------- */
+
+.past-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  max-width: 800px; 
+  margin: 0 auto; 
+}
+
+.scrollable {
+  max-height: 400px; 
+  overflow-y: auto; 
+  width: 100%; 
+}
+
+.past-purchase-list {
+  width: 100%;
+}
+
+.past-purchase-box {
+  background-color: #ffffff;
+  border-radius: 5px; 
+  border: 1px solid #ddd; 
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.timestamp {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 3px; 
+  border: 1px solid #007bff; 
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.timestamp:hover {
+  background-color: #007bff;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.no-purchases-message {
+  text-align: center;
+  font-size: 1.2em;
+  color: #888;
+  margin-top: 20px;
+}
+
+.close-icon {
+  border: none;
+  cursor: pointer; 
+  transition: all 0.3s ease; 
+}
+
+.close-icon:hover {
+  transform: scale(1.2); 
+}
+
+
+/** ------------------------------------- past purchases timestamp end --------------------------------------------------- */
+
+/** ---------------------------------- detailed pastbox ------------------------------------------------------------------------- */
+
+.detailed {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%; /* Adjust the width as needed */
+  max-width: 600px; /* Set a maximum width for responsiveness */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Add scrollbar if content exceeds height */
+  max-height: 80vh; /* Limit maximum height and enable scrolling */
+}
+
+.detailed h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.detailed .close-icon {
+  float: right;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.detailed .purchase-details {
+  margin-top: 20px;
+}
+
+.detailed .purchase-details p {
+  margin-bottom: 5px;
+}
+
+.detailed h3 {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.detailed-product-item {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.detailed-product-item:last-child {
+  border-bottom: none;
+}
+
+
+
+/** ---------------------------------- detailed pastbox end ------------------------------------------------------------------------- */
 
 
